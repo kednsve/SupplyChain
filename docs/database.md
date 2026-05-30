@@ -2,13 +2,17 @@
 
 ## 概念设计
 
-Customer
+customer
 
 ![customer](F:\MyProjects\SupplyChain\docs\imgs\customer.png)
 
-Department
+department
 
 ![department](F:\MyProjects\SupplyChain\docs\imgs\department.png)
+
+category
+
+![category](F:\MyProjects\SupplyChain\docs\imgs\category.png)
 
 logistics
 
@@ -39,9 +43,7 @@ customer
 | id      | int         | 是   | 是   |          | 客户id   |
 | name    | varchar(30) | 否   | 是   |          | 客户姓名 |
 | segment | varchar(20) | 否   | 是   | 检查约束 | 客户类别 |
-| reion       | varchar(30)   | 否   | 是   |          | 地区     |
-| country     | varchar(30)   | 否   | 是   |          | 国家     |
-| city        | varchar(30)   | 否   | 是   |          | 城市     |
+
 
 order
 
@@ -53,6 +55,9 @@ order
 | sales       | decimal(10,2) | 否   | 是   | 检查约束 | 销售额   |
 | profit      | decimal(10,2) | 否   | 是   |          | 利润     |
 | status      | varchar(20)   | 否   | 是   | 检查约束 | 订单状态 |
+| reion       | varchar(20) | 否   | 是   |          | 地区     |
+| country     | varchar(40) | 否   | 是   |          | 国家     |
+| city        | varchar(40) | 否   | 是   |          | 城市     |
 
 logistics
 
