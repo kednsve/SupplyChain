@@ -11,18 +11,14 @@
 
 ## 2. 技术栈
 
-| 层级           | 技术                         |
-| -------------- | ---------------------------- |
-| 后端服务       | SpringBoot + MyBatis         |
-| 前端页面       | Vue3 + Element Plus          |
-| 数据分析与预测 | Python (Pandas/Scikit-learn) |
-| 可视化         | Echarts                      |
+| 层级           | 技术                                 |
+| -------------- | ------------------------------------ |
+| 后端服务       | SpringBoot + MyBatis                 |
+| 前端页面       | Vue3 + Element Plus                  |
+| 数据分析与预测 | Python (Pandas+Scikit-learn+FastAPI) |
+| 可视化         | Echarts                              |
 
-3. 数据集说明
+## 3. 数据集说明
 
-​	
-
-[kaggle-DataCoSupplyChainDataset]: https://www.kaggle.com/datasets/saicharankomati/dataco-supply-chain-dataset/data	"a"
-
-（18万+行，53列）覆盖**订单、物流、客户、产品、配送**全链路
+[kaggle-DataCoSupplyChainDataset](https://www.kaggle.com/datasets/saicharankomati/dataco-supply-chain-dataset/data)（18万+行，53列）覆盖**订单、物流、客户、产品、配送**全链路
 
