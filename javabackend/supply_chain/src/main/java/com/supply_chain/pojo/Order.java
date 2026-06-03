@@ -1,0 +1,30 @@
+package com.supply_chain.pojo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Order {
+    // 订单主键id
+    private Integer id;
+    // 下单时间
+    private LocalDateTime date;
+    // 客户id
+    private Integer customerId;
+    // 销售额
+    private Float sales;
+    // 利润
+    private Float profit;
+    // 订单状态
+    private String status;
+    // 地区
+    private String region;
+    // 国家
+    private String country;
+    // 城市
+    private String city;
+}

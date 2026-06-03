@@ -1,0 +1,23 @@
+package com.supply_chain.pojo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Product {
+    // id
+    private Integer id;
+    // 产品名称
+    private String name;
+    // 产品图片
+    private String image;
+    // 产品单价
+    private Float price;
+    // 产品类别id
+    private Integer categoryId;
+    // 部门id
+    private Integer departmentId;
+}
