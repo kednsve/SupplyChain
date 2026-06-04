@@ -11,7 +11,8 @@ public interface OrderService {
             Integer page,Integer pageSize,LocalDate start, LocalDate end, Integer customerId, Float salesMin, Float salesMax, String status,
             String region, String country, String city
                       );
-    int deleteByCustomerId(Integer[] ids);
-    void deleteByOrderId(Integer[] ids);
-    int update(Order order);
+    Integer deleteByCustomerId(Integer[] ids);
+    Integer deleteByOrderId(Integer[] ids);
+    Integer update(Order order);
+    Integer[] getIdByCustomerId(Integer[] ids);
 }

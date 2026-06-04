@@ -20,10 +20,12 @@ public interface OrderMapper {
             String region, String country, String city
                          );
 
-    int deleteByCustomerId(Integer[] ids);
+    Integer deleteByCustomerId(Integer[] ids);
 
-    @Update("update `order` set date = #{date},sales=#{sale},status=#{status}," +
+    @Update("update `order` set date = #{date},sales=#{sales},status=#{status}," +
             "region=#{region},country=#{country},city=#{city} where id = #{id};")
-    int update(Order order);
-    void deleteByOrderId(Integer[] id);
+    Integer update(Order order);
+    Integer deleteByOrderId(Integer[] id);
+
+    Integer[] getIdByCustomerId(Integer[] ids);
 }

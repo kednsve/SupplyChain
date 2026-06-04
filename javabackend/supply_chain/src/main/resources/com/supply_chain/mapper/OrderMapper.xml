@@ -60,6 +60,14 @@
             </if>
         </where>
     </select>
+    <select id="getIdByCustomerId">
+        select id
+        from `order`
+        where customer_id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
     <delete id="deleteByCustomerId">
         delete
         from `order`

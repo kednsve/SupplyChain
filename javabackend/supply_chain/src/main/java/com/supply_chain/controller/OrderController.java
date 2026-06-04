@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @RequestMapping("/api/order")
 public class OrderController {
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @GetMapping("/{id}")
     public Result getOrderById(@PathVariable Integer id) {
@@ -23,7 +23,7 @@ public class OrderController {
 
     @GetMapping
     public Result getOrders(
-            Integer page, Integer pageSize,
+            @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize,
             LocalDate start, LocalDate end, Integer customerId, Float salesMin, Float salesMax, String status,
             String region, String country, String city
     ) {
@@ -32,11 +32,13 @@ public class OrderController {
         );
         return Result.success(pageBean);
     }
+
     @DeleteMapping("/{ids}")
     public Result deleteById(@PathVariable Integer[] ids) {
         orderService.deleteByOrderId(ids);
         return Result.success();
     }
+
     @PutMapping
     public Result updateOrder(@RequestBody Order order) {
         orderService.update(order);

@@ -26,7 +26,7 @@ CREATE TABLE `category` (
   `id` int NOT NULL,
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,7 +51,7 @@ CREATE TABLE `customer` (
   `segment` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `ck_segment` CHECK ((`segment` in (_utf8mb4'Consumer',_utf8mb4'Home Office',_utf8mb4'Corporate')))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `department` (
   `id` int NOT NULL,
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +108,7 @@ CREATE TABLE `logistics` (
   CONSTRAINT `ck_delivery_status` CHECK ((`delivery_status` in (_utf8mb4'Advance shipping',_utf8mb4'Late delivery',_utf8mb4'Shipping on time',_utf8mb4'Shipping canceled'))),
   CONSTRAINT `ck_late_risk` CHECK ((`late_risk` in (0,1))),
   CONSTRAINT `ck_shipping_mode` CHECK ((`shipping_mode` in (_utf8mb4'Standard Class',_utf8mb4'First Class',_utf8mb4'Second Class',_utf8mb4'Same Day')))
-) ENGINE=InnoDB AUTO_INCREMENT=65753 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=65753 DEFAULT CHARSET=utf8mb4 ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +141,7 @@ CREATE TABLE `order` (
   CONSTRAINT `fk_order_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`),
   CONSTRAINT `ck_sales` CHECK ((`sales` > 0)),
   CONSTRAINT `ck_status` CHECK ((`status` in (_utf8mb4'COMPLETE',_utf8mb4'PENDING',_utf8mb4'CLOSED',_utf8mb4'PENDING_PAYMENT',_utf8mb4'CANCELED',_utf8mb4'PROCESSING',_utf8mb4'SUSPECTED_FRAUD',_utf8mb4'ON_HOLD',_utf8mb4'PAYMENT_REVIEW')))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,7 +174,7 @@ CREATE TABLE `order_items` (
   CONSTRAINT `fk_order_items_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `ck_quantity` CHECK ((`quantity` > 0)),
   CONSTRAINT `ck_unit_price` CHECK ((`unit_price` > 0))
-) ENGINE=InnoDB AUTO_INCREMENT=180520 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=180520 DEFAULT CHARSET=utf8mb4 ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -254,7 +254,7 @@ CREATE TABLE `product` (
   CONSTRAINT `fk_product_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `fk_product_department` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`),
   CONSTRAINT `ck_price` CHECK ((`price` > 0))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

@@ -18,7 +18,7 @@ public class Logistics {
     // 物流状态
     private String deliveryStatus;
     // 延误风险 0/1
-    private Integer lateRisk;
+    private Short lateRisk;
     // 发货日期
     private LocalDate shippingDate;
     // 物流方式

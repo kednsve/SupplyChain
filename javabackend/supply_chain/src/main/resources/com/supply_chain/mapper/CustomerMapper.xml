@@ -11,7 +11,7 @@
                 name like concat('%',#{name},'%')
             </if>
             <if test="segment != null and segment != ''">
-                and segment like concat('%',#{segment},'%')
+                and segment = #{segment}
             </if>
         </where>
     </select>

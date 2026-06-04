@@ -6,6 +6,8 @@ import com.github.pagehelper.PageInfo;
 import com.supply_chain.mapper.OrderMapper;
 import com.supply_chain.pojo.Order;
 import com.supply_chain.pojo.PageBean;
+import com.supply_chain.service.LogisticsService;
+import com.supply_chain.service.OrderItemsService;
 import com.supply_chain.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,10 @@ import java.util.List;
 public class OrderServiceImp implements OrderService {
     @Autowired
     private OrderMapper orderMapper;
-
+    @Autowired
+    private LogisticsService logisticsService;
+    @Autowired
+    private OrderItemsService orderItemsService;
     @Override
     public Order getOrderById(Integer id) {
         return orderMapper.getOrderById(id);
@@ -38,17 +43,27 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public int deleteByCustomerId(Integer[] ids) {
+    public Integer deleteByCustomerId(Integer[] ids) {
+        Integer[] orderId = getIdByCustomerId(ids);
+        orderItemsService.delByOrderId(orderId);
+        logisticsService.delByOrderId(orderId);
         return orderMapper.deleteByCustomerId(ids);
     }
 
     @Override
-    public void deleteByOrderId(Integer[] id) {
-        orderMapper.deleteByOrderId(id);
+    public Integer deleteByOrderId(Integer[] ids) {
+        orderItemsService.delByOrderId(ids);
+        logisticsService.delByOrderId(ids);
+        return orderMapper.deleteByOrderId(ids);
     }
 
     @Override
-    public int update(Order order) {
+    public Integer update(Order order) {
         return orderMapper.update(order);
+    }
+
+    @Override
+    public Integer[] getIdByCustomerId(Integer[] ids) {
+        return orderMapper.getIdByCustomerId(ids);
     }
 }

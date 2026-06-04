@@ -6,6 +6,7 @@ import com.supply_chain.mapper.CustomerMapper;
 import com.supply_chain.pojo.Customer;
 import com.supply_chain.pojo.PageBean;
 import com.supply_chain.service.CustomerService;
+import com.supply_chain.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ import java.util.List;
 public class CustomerServiceImp implements CustomerService {
     @Autowired
     private CustomerMapper customerMapper;
+    @Autowired
+    private OrderService orderService;
 
     @Override
     public Customer selectById(Integer id) {
@@ -26,12 +29,13 @@ public class CustomerServiceImp implements CustomerService {
         PageHelper.startPage(page, pageSize);
         List<Customer> list = customerMapper.list(name, segment);
         PageInfo<Customer> p = new PageInfo<>(list);
-        return new PageBean(p.getTotal(),p.getList());
+        return new PageBean(p.getTotal(), p.getList());
     }
 
     @Override
-    public void deleteByCustomerId(Integer[] id) {
-        customerMapper.deleteByCustomerId(id);
+    public void deleteByCustomerId(Integer[] ids) {
+        orderService.deleteByCustomerId(ids);
+        customerMapper.deleteByCustomerId(ids);
     }
 
     @Override

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.supply_chain.mapper.LogisticsMapper">
+    <select id="getLogistics">
+        select *
+        from logistics
+        <where>
+            <if test="daysRealMin != null">
+                and shipping_days_real &gt;= #{daysRealMin}
+            </if>
+            <if test="daysRealMax != null">
+                and shipping_days_real &lt;= #{daysRealMax}
+            </if>
+            <if test="daysScheduledMin != null">
+                and shipping_days_scheduled &gt;= #{daysScheduledMin}
+            </if>
+            <if test="daysScheduledMax != null">
+                and shipping_days_scheduled &lt;= #{daysScheduledMax}
+            </if>
+            <if test="deliveryStatus !=null and deliveryStatus !=''">
+                and delivery_status = #{deliveryStatus}
+            </if>
+            <if test="lateRisk != null">
+                and late_risk = #{lateRisk}
+            </if>
+            <if test="shippingDateBegin !=null and shippingDateBegin !=''">
+                and shipping_date &gt;= #{shippingDateBegin}
+            </if>
+            <if test="shippingDateEnd !=null and shippingDateEnd !=''">
+                and shipping_date &lt;= #{shippingDateEnd}
+            </if>
+
+            <if test="shippingMode !=null and shippingMode !=''">
+                and shipping_mode &lt;= #{shippingMode}
+            </if>
+            <if test="orderId != null">
+                and order_id = #{orderId}
+            </if>
+        </where>
+    </select>
+    <delete id="delByOrderId">
+        delete
+        from logistics
+        where order_id in
+        <foreach collection="ids" separator="," open="(" close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
