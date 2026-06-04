@@ -14,6 +14,8 @@ public interface CustomerMapper {
 
     List<Customer> list(String name, String segment);
 
+    void deleteByCustomerId(Integer[] id);
+
     @Update("update Customer set name=#{name},setment=#{segment}")
     Integer update(Customer customer);
 }

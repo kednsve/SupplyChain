@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.supply_chain.mapper.OrderMapper">
+    <resultMap id="withItems" type="com.supply_chain.pojo.Order">
+        <id property="id" column="oId"/>
+        <result property="date" column="date"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="sales" column="sales"/>
+        <result property="status" column="status"/>
+        <result property="region" column="region"/>
+        <result property="country" column="country"/>
+        <result property="city" column="city"/>
+        <collection property="orderItems" ofType="com.supply_chain.pojo.OrderItems">
+            <id property="id" column="oiId"/>
+            <result property="orderId" column="order_id"/>
+            <result property="productId" column="product_id"/>
+            <result property="quantity" column="quantity"/>
+            <result property="unitPrice" column="unit_price"/>
+            <result property="total" column="total"/>
+        </collection>
+    </resultMap>
+    <select id="getOrdersAndItems" resultMap="withItems">
+        select o.id oId, o.date, o.customer_id, o.sales, o.status, o.region, o.country, o.city,
+               oi.id oiId, oi.order_id, oi.product_id, oi.quantity, oi.unit_price, oi.total
+        from `order` o
+        left join order_items oi on o.id = oi.order_id
+    </select>
+    <select id="getOrders">
+        select *
+        from `order`
+        <where>
+            <if test="customerId != null">
+                customer_id = #{customerId}
+            </if>
+            <if test="start !=null and start !=''">
+                and date &gt;= #{start}
+            </if>
+            <if test="end !=null and end !=''">
+                and date &lt;= #{end}
+            </if>
+            <if test="salesMin != null">
+                and sales &gt;= #{salesMin}
+            </if>
+            <if test="salesMax != null">
+                and sales &lt;= #{salesMax}
+            </if>
+            <if test="status !=null and status !=''">
+                and status = #{status}
+            </if>
+            <if test="region !=null and region !=''">
+                and region like concat('%', #{region}, '%')
+            </if>
+            <if test="country !=null and country !=''">
+                and country like concat('%', #{country}, '%')
+            </if>
+            <if test="city !=null and city !=''">
+                and city like concat('%', #{city}, '%')
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByCustomerId">
+        delete
+        from `order`
+        where customer_id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteByOrderId">
+        delete
+        from `order`
+        where id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

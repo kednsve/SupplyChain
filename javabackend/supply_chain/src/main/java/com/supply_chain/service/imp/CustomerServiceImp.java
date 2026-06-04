@@ -9,7 +9,6 @@ import com.supply_chain.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,6 +27,11 @@ public class CustomerServiceImp implements CustomerService {
         List<Customer> list = customerMapper.list(name, segment);
         PageInfo<Customer> p = new PageInfo<>(list);
         return new PageBean(p.getTotal(),p.getList());
+    }
+
+    @Override
+    public void deleteByCustomerId(Integer[] id) {
+        customerMapper.deleteByCustomerId(id);
     }
 
     @Override

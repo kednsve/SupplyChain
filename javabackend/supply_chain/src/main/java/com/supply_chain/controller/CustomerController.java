@@ -4,11 +4,9 @@ import com.supply_chain.pojo.Customer;
 import com.supply_chain.pojo.PageBean;
 import com.supply_chain.pojo.Result;
 import com.supply_chain.service.CustomerService;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/customer")
@@ -35,12 +33,13 @@ public class CustomerController {
 
     @DeleteMapping("/{ids}")
     Result deleteByIds(@PathVariable Integer[] ids) {
+        customerService.deleteByCustomerId(ids);
         return Result.success();
     }
 
     @PutMapping
     Result update(@RequestBody Customer customer) {
-        int n = customerService.update(customer);
+        customerService.update(customer);
         return Result.success();
     }
 }
