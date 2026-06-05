@@ -13,19 +13,19 @@ public interface OrderMapper {
     @Select("select * from `order` where id=#{id}")
     Order getOrderById(Integer id);
 
-    List<Order> getOrdersAndItems();
+    //List<Order> getOrdersAndItems();
 
     List<Order> getOrders(
             LocalDate start, LocalDate end, Integer customerId, Float salesMin, Float salesMax, String status,
             String region, String country, String city
                          );
 
-    Integer deleteByCustomerId(Integer[] ids);
+    void deleteByCustomerId(Integer[] ids);
 
     @Update("update `order` set date = #{date},sales=#{sales},status=#{status}," +
             "region=#{region},country=#{country},city=#{city} where id = #{id};")
-    Integer update(Order order);
-    Integer deleteByOrderId(Integer[] id);
+    void update(Order order);
+    void deleteByOrderId(Integer[] id);
 
     Integer[] getIdByCustomerId(Integer[] ids);
 }

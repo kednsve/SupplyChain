@@ -7,17 +7,16 @@ import com.supply_chain.pojo.Customer;
 import com.supply_chain.pojo.PageBean;
 import com.supply_chain.service.CustomerService;
 import com.supply_chain.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerServiceImp implements CustomerService {
-    @Autowired
-    private CustomerMapper customerMapper;
-    @Autowired
-    private OrderService orderService;
+    private final CustomerMapper customerMapper;
+    private final OrderService orderService;
 
     @Override
     public Customer selectById(Integer id) {
@@ -39,7 +38,7 @@ public class CustomerServiceImp implements CustomerService {
     }
 
     @Override
-    public Integer update(Customer customer) {
-        return customerMapper.update(customer);
+    public void update(Customer customer) {
+        customerMapper.update(customer);
     }
 }

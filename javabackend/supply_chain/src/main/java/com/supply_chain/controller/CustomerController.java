@@ -4,15 +4,15 @@ import com.supply_chain.pojo.Customer;
 import com.supply_chain.pojo.PageBean;
 import com.supply_chain.pojo.Result;
 import com.supply_chain.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/api/customer")
+@RequiredArgsConstructor
 public class CustomerController {
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     @GetMapping
     Result page(
@@ -20,7 +20,7 @@ public class CustomerController {
             @RequestParam(defaultValue = "10") Integer pageSize,
             String name,
             String segment
-               ) {
+    ) {
         PageBean pageBean = customerService.page(page, pageSize, name, segment);
         return Result.success(pageBean);
     }

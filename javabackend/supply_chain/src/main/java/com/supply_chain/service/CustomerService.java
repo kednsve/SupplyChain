@@ -10,6 +10,6 @@ public interface CustomerService {
 
     PageBean page(Integer start, Integer pageSize, String name, String segment);
 
-    Integer update(Customer customer);
+    void update(Customer customer);
     void deleteByCustomerId(Integer[] id);
 }

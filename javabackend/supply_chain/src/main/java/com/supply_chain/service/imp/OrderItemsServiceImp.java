@@ -2,15 +2,16 @@ package com.supply_chain.service.imp;
 
 import com.supply_chain.mapper.OrderItemsMapper;
 import com.supply_chain.service.OrderItemsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class OrderItemsServiceImp implements OrderItemsService {
-    @Autowired
-    private OrderItemsMapper orderItemsMapper;
+
+    private final OrderItemsMapper orderItemsMapper;
     @Override
-    public Integer delByOrderId(Integer[] ids) {
-        return orderItemsMapper.delByOrderId(ids);
+    public void delByOrderId(Integer[] ids) {
+        orderItemsMapper.delByOrderId(ids);
     }
 }

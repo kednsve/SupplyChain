@@ -43,23 +43,23 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public Integer deleteByCustomerId(Integer[] ids) {
+    public void deleteByCustomerId(Integer[] ids) {
         Integer[] orderId = getIdByCustomerId(ids);
         orderItemsService.delByOrderId(orderId);
         logisticsService.delByOrderId(orderId);
-        return orderMapper.deleteByCustomerId(ids);
+        orderMapper.deleteByCustomerId(ids);
     }
 
     @Override
-    public Integer deleteByOrderId(Integer[] ids) {
+    public void deleteByOrderId(Integer[] ids) {
         orderItemsService.delByOrderId(ids);
         logisticsService.delByOrderId(ids);
-        return orderMapper.deleteByOrderId(ids);
+        orderMapper.deleteByOrderId(ids);
     }
 
     @Override
-    public Integer update(Order order) {
-        return orderMapper.update(order);
+    public void update(Order order) {
+        orderMapper.update(order);
     }
 
     @Override

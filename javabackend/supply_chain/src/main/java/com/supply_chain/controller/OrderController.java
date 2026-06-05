@@ -4,16 +4,16 @@ import com.supply_chain.pojo.Order;
 import com.supply_chain.pojo.PageBean;
 import com.supply_chain.pojo.Result;
 import com.supply_chain.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/order")
+@RequiredArgsConstructor
 public class OrderController {
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @GetMapping("/{id}")
     public Result getOrderById(@PathVariable Integer id) {

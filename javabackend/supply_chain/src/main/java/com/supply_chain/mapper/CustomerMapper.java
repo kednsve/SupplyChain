@@ -17,5 +17,5 @@ public interface CustomerMapper {
     void deleteByCustomerId(Integer[] ids);
 
     @Update("update Customer set name=#{name},segment=#{segment}")
-    Integer update(Customer customer);
+    void update(Customer customer);
 }
