@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class Order {
     // 客户id
     private Integer customerId;
     // 销售额
-    private Float sales;
+    private BigDecimal sales;
     // 订单状态
     private String status;
     // 地区

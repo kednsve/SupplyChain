@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +19,7 @@ public class OrderItems {
     // 数量
     private Integer quantity;
     // 单价
-    private Float unitPrice;
+    private BigDecimal unitPrice;
     // 总价
-    private Float total;
+    private BigDecimal total;
 }

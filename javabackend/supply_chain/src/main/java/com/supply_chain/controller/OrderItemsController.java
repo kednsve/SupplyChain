@@ -1,12 +1,12 @@
 package com.supply_chain.controller;
 
+import com.supply_chain.pojo.OrderItems;
 import com.supply_chain.pojo.Result;
 import com.supply_chain.service.OrderItemsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orderItems")
@@ -18,5 +18,17 @@ public class OrderItemsController {
     Result delByOrderId(@PathVariable Integer[] ids) {
         orderItemsService.delByOrderId(ids);
         return Result.success();
+    }
+
+    @PutMapping
+    Result update(@RequestBody OrderItems orderItems) {
+        orderItemsService.update(orderItems);
+        return Result.success();
+    }
+
+    @GetMapping("/{orderId}")
+    Result getByOrderId(@PathVariable Integer orderId) {
+        List<OrderItems> orderItems = orderItemsService.getByOrderId(orderId);
+        return Result.success(orderItems);
     }
 }

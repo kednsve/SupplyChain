@@ -10,11 +10,14 @@ import java.util.List;
 
 @Mapper
 public interface LogisticsMapper {
-    List<Logistics> getLogistics(Integer daysRealMin, Integer daysRealMax,
-                                 Integer daysScheduledMin, Integer daysScheduledMax,
-                                 String deliveryStatus, Short lateRisk,
-                                 LocalDate shippingDateBegin, LocalDate shippingDateEnd,
-                                 String shippingMode, Integer orderId);
+    List<Logistics> getLogistics(
+            Integer daysRealMin, Integer daysRealMax,
+            Integer daysScheduledMin, Integer daysScheduledMax,
+            String deliveryStatus, Short lateRisk,
+            LocalDate shippingDateBegin, LocalDate shippingDateEnd,
+            String shippingMode, Integer orderId
+    );
+
     @Select("select * from logistics where order_id = #{orderId}")
     Logistics getByOrderId(Integer orderId);
 
@@ -28,6 +31,6 @@ public interface LogisticsMapper {
                 late_risk=#{lateRisk},
                 delivery_status=#{deliveryStatus},
                 shipping_mode=#{shippingMode}
-            where id=#{id};""")
+            where id=#{id}""")
     void update(Logistics logistics);
 }

@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class Product {
     // 产品图片
     private String image;
     // 产品单价
-    private Float price;
+    private BigDecimal price;
     // 产品类别id
     private Integer categoryId;
     // 部门id

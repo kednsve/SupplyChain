@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,10 +24,13 @@ public interface OrderMapper {
     void deleteByCustomerId(Integer[] ids);
 
     @Update("update `order` set date = #{date},sales=#{sales},status=#{status}," +
-            "region=#{region},country=#{country},city=#{city} where id = #{id};")
+            "region=#{region},country=#{country},city=#{city} where id = #{id}")
     void update(Order order);
 
     void deleteByOrderId(Integer[] id);
 
     Integer[] getIdByCustomerId(Integer[] ids);
+
+    @Update("update `order` set sales = #{sales} where id=#{id}")
+    void updateSales(Integer id, BigDecimal sales);
 }

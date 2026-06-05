@@ -9,6 +9,7 @@ import com.supply_chain.service.CustomerService;
 import com.supply_chain.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,12 +32,14 @@ public class CustomerServiceImp implements CustomerService {
         return new PageBean(p.getTotal(), p.getList());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteByCustomerId(Integer[] ids) {
         orderService.deleteByCustomerId(ids);
         customerMapper.deleteByCustomerId(ids);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void update(Customer customer) {
         customerMapper.update(customer);

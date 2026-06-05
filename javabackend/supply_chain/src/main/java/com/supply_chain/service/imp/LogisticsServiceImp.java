@@ -8,6 +8,7 @@ import com.supply_chain.pojo.PageBean;
 import com.supply_chain.service.LogisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,11 +38,13 @@ public class LogisticsServiceImp implements LogisticsService {
         return logisticsMapper.getByOrderId(orderId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void delByOrderId(Integer[] ids) {
         logisticsMapper.delByOrderId(ids);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void update(Logistics logistics) {
         logisticsMapper.update(logistics);
