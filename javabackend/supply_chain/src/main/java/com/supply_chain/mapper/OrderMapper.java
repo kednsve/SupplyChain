@@ -18,13 +18,14 @@ public interface OrderMapper {
     List<Order> getOrders(
             LocalDate start, LocalDate end, Integer customerId, Float salesMin, Float salesMax, String status,
             String region, String country, String city
-                         );
+    );
 
     void deleteByCustomerId(Integer[] ids);
 
     @Update("update `order` set date = #{date},sales=#{sales},status=#{status}," +
             "region=#{region},country=#{country},city=#{city} where id = #{id};")
     void update(Order order);
+
     void deleteByOrderId(Integer[] id);
 
     Integer[] getIdByCustomerId(Integer[] ids);
