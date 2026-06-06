@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.supply_chain.mapper.LogisticsMapper">
     <select id="getLogistics">
-        select *
+        select id, shipping_days_real, shipping_days_scheduled, delivery_status, late_risk, shipping_date,
+        shipping_mode, order_id
         from logistics
         <where>
             <if test="daysRealMin != null">

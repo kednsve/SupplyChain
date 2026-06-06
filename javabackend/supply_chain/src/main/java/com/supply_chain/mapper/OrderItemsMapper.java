@@ -19,6 +19,6 @@ public interface OrderItemsMapper {
             """)
     void update(OrderItems orderItems);
 
-    @Select("select * from order_items where order_id=#{id}")
+    @Select("select id, order_id, product_id, quantity, unit_price, total from order_items where order_id=#{id}")
     List<OrderItems> getByOrderId(Integer id);
 }

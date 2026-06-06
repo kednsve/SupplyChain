@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.supply_chain.mapper.CustomerMapper">
     <select id="list" resultType="com.supply_chain.pojo.Customer">
-        select *
+        select id, name, segment
         from customer
         <where>
             <if test="name != null and name !=''">

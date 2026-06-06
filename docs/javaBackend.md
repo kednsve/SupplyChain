@@ -83,3 +83,39 @@
 ​	List<OrderItems> getByOrderId
 
 ​		通过订单id查询订单物品
+
+## Product
+
+​	void delById
+
+​		通过产品id删除产品
+
+​	void update
+
+​		更新产品信息
+
+​	Product getById
+
+​		根据id查询产品信息
+
+​	List<Product> getProducts
+
+​		通过姓名模糊查询，价格限定，部门id和分类id匹配查询产品信息
+
+## Department
+
+​	void delById
+
+​		通过id删除部门
+
+​	void update
+
+​		更新部门信息
+
+​	Department getById
+
+​		通过id查询部门信息
+
+​	List<Department> getDepartments
+
+​		通过姓名模糊查询部门

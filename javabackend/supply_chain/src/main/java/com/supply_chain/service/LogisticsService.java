@@ -7,11 +7,18 @@ import java.time.LocalDate;
 
 public interface LogisticsService {
     PageBean getLogistics(
-            Integer page, Integer pageSize, Integer daysRealMin, Integer daysRealMax,
-            Integer daysScheduledMin, Integer daysScheduledMax,
-            String deliveryStatus, Short lateRisk,
-            LocalDate shippingDateBegin, LocalDate shippingDateEnd,
-            String shippingMode, Integer orderId
+            Integer page,
+            Integer pageSize,
+            Integer daysRealMin,
+            Integer daysRealMax,
+            Integer daysScheduledMin,
+            Integer daysScheduledMax,
+            String deliveryStatus,
+            Short lateRisk,
+            LocalDate shippingDateBegin,
+            LocalDate shippingDateEnd,
+            String shippingMode,
+            Integer orderId
     );
 
     Logistics getByOrderId(Integer orderId);

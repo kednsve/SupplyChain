@@ -23,12 +23,30 @@ public class OrderController {
 
     @GetMapping
     public Result getOrders(
-            @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize,
-            LocalDate start, LocalDate end, Integer customerId, Float salesMin, Float salesMax, String status,
-            String region, String country, String city
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            LocalDate start,
+            LocalDate end,
+            Integer customerId,
+            Float salesMin,
+            Float salesMax,
+            String status,
+            String region,
+            String country,
+            String city
     ) {
         PageBean pageBean = orderService.getOrders(
-                page, pageSize, start, end, customerId, salesMin, salesMax, status, region, country, city
+                page,
+                pageSize,
+                start,
+                end,
+                customerId,
+                salesMin,
+                salesMax,
+                status,
+                region,
+                country,
+                city
         );
         return Result.success(pageBean);
     }

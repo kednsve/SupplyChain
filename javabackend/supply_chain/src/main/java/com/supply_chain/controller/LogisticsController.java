@@ -17,14 +17,32 @@ public class LogisticsController {
 
     @GetMapping
     Result getLogistics(
-            @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize,
-            Integer daysRealMin, Integer daysRealMax, Integer daysScheduledMin, Integer daysScheduledMax,
-            String deliveryStatus, Short lateRisk, LocalDate shippingDateBegin, LocalDate shippingDateEnd,
-            String shippingMode, Integer orderId
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            Integer daysRealMin,
+            Integer daysRealMax,
+            Integer daysScheduledMin,
+            Integer daysScheduledMax,
+            String deliveryStatus,
+            Short lateRisk,
+            LocalDate shippingDateBegin,
+            LocalDate shippingDateEnd,
+            String shippingMode,
+            Integer orderId
     ) {
         PageBean pageBean = logisticsService.getLogistics(
-                page, pageSize, daysRealMin, daysRealMax, daysScheduledMin, daysScheduledMax, deliveryStatus, lateRisk,
-                shippingDateBegin, shippingDateEnd, shippingMode, orderId
+                page,
+                pageSize,
+                daysRealMin,
+                daysRealMax,
+                daysScheduledMin,
+                daysScheduledMax,
+                deliveryStatus,
+                lateRisk,
+                shippingDateBegin,
+                shippingDateEnd,
+                shippingMode,
+                orderId
         );
         return Result.success(pageBean);
     }

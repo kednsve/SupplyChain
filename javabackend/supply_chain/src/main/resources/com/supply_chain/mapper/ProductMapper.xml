@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.supply_chain.mapper.ProductMapper">
+    <delete id="delById">
+        delete
+        from product
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="getProducts">
+        select id, name, image, price, category_id, department_id
+        from product
+        <where>
+            <if test="name!=null and name!=''">
+                name like concat('%',#{name},'%')
+            </if>
+            <if test="priceLow!=null">
+                and price &gt;= #{priceLow}
+            </if>
+            <if test="priceHigh!=null">
+                and price &lt;= #{priceHigh}
+            </if>
+            <if test="categoryId!=null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="departmentId!=null">
+                and department_id=#{departmentId}
+            </if>
+        </where>
+    </select>
+</mapper>

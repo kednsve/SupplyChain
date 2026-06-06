@@ -20,14 +20,31 @@ public class LogisticsServiceImp implements LogisticsService {
 
     @Override
     public PageBean getLogistics(
-            Integer page, Integer pageSize, Integer daysRealMin, Integer daysRealMax, Integer daysScheduledMin,
-            Integer daysScheduledMax, String deliveryStatus, Short lateRisk, LocalDate shippingDateBegin,
-            LocalDate shippingDateEnd, String shippingMode, Integer orderId
+            Integer page,
+            Integer pageSize,
+            Integer daysRealMin,
+            Integer daysRealMax,
+            Integer daysScheduledMin,
+            Integer daysScheduledMax,
+            String deliveryStatus,
+            Short lateRisk,
+            LocalDate shippingDateBegin,
+            LocalDate shippingDateEnd,
+            String shippingMode,
+            Integer orderId
     ) {
         PageHelper.startPage(page, pageSize);
         List<Logistics> list = logisticsMapper.getLogistics(
-                daysRealMin, daysRealMax, daysScheduledMin, daysScheduledMax, deliveryStatus, lateRisk,
-                shippingDateBegin, shippingDateEnd, shippingMode, orderId
+                daysRealMin,
+                daysRealMax,
+                daysScheduledMin,
+                daysScheduledMax,
+                deliveryStatus,
+                lateRisk,
+                shippingDateBegin,
+                shippingDateEnd,
+                shippingMode,
+                orderId
         );
         PageInfo<Logistics> p = new PageInfo<>(list);
         return new PageBean(p.getTotal(), p.getList());

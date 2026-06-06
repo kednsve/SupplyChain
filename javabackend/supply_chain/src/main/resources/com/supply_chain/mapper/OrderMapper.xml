@@ -28,7 +28,7 @@
         left join order_items oi on o.id = oi.order_id
     </select>
     <select id="getOrders">
-        select *
+        select id, date, customer_id, sales, status, region, country, city
         from `order`
         <where>
             <if test="customerId != null">

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface CustomerMapper {
-    @Select("select * from Customer where id=#{id}")
+    @Select("select id,name,segment from Customer where id=#{id}")
     Customer selectById(Integer id);
 
     List<Customer> list(String name, String segment);

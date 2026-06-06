@@ -31,13 +31,29 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public PageBean getOrders(
-            Integer page, Integer pageSize, LocalDate start, LocalDate end, Integer customerId, Float salesMin,
+            Integer page,
+            Integer pageSize,
+            LocalDate start,
+            LocalDate end,
+            Integer customerId,
+            Float salesMin,
             Float salesMax,
-            String status, String region, String country, String city
+            String status,
+            String region,
+            String country,
+            String city
     ) {
         PageHelper.startPage(page, pageSize);
         List<Order> list = orderMapper.getOrders(
-                start, end, customerId, salesMin, salesMax, status, region, country, city
+                start,
+                end,
+                customerId,
+                salesMin,
+                salesMax,
+                status,
+                region,
+                country,
+                city
         );
         PageInfo<Order> pageInfo = new PageInfo<>(list);
         return new PageBean(pageInfo.getTotal(), pageInfo.getList());

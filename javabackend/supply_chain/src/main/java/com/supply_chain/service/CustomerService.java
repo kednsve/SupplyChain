@@ -11,5 +11,6 @@ public interface CustomerService {
     PageBean page(Integer start, Integer pageSize, String name, String segment);
 
     void update(Customer customer);
+
     void deleteByCustomerId(Integer[] id);
 }

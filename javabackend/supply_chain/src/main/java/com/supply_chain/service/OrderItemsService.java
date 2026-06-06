@@ -8,5 +8,6 @@ public interface OrderItemsService {
     void delByOrderId(Integer[] ids);
 
     void update(OrderItems orderItems);
+
     List<OrderItems> getByOrderId(Integer id);
 }

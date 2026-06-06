@@ -11,14 +11,21 @@ import java.util.List;
 
 @Mapper
 public interface OrderMapper {
-    @Select("select * from `order` where id=#{id}")
+    @Select("select id, date, customer_id, sales, status, region, country, city from `order` where id=#{id}")
     Order getOrderById(Integer id);
 
     //List<Order> getOrdersAndItems();
 
     List<Order> getOrders(
-            LocalDate start, LocalDate end, Integer customerId, Float salesMin, Float salesMax, String status,
-            String region, String country, String city
+            LocalDate start,
+            LocalDate end,
+            Integer customerId,
+            Float salesMin,
+            Float salesMax,
+            String status,
+            String region,
+            String country,
+            String city
     );
 
     void deleteByCustomerId(Integer[] ids);
