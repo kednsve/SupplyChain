@@ -13,7 +13,7 @@
 
 | 层级           | 技术                                 |
 | -------------- | ------------------------------------ |
-| 后端服务       | SpringBoot + MyBatis                 |
+| 后端服务       | SpringBoot4 + MyBatis Plus           |
 | 前端页面       | Vue3 + Element Plus                  |
 | 数据分析与预测 | Python (Pandas+Scikit-learn+FastAPI) |
 | 可视化         | Echarts                              |

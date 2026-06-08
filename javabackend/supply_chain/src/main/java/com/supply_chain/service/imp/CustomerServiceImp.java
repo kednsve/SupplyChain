@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.supply_chain.mapper.CustomerMapper;
 import com.supply_chain.pojo.Customer;
-import com.supply_chain.pojo.PageBean;
+import com.supply_chain.vo.PageBean;
 import com.supply_chain.service.CustomerService;
 import com.supply_chain.service.OrderService;
 import lombok.RequiredArgsConstructor;

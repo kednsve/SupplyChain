@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.supply_chain.mapper.DepartmentMapper;
 import com.supply_chain.pojo.Department;
-import com.supply_chain.pojo.PageBean;
+import com.supply_chain.vo.PageBean;
 import com.supply_chain.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

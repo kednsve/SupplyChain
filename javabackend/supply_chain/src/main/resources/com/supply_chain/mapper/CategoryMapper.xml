@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.supply_chain.mapper.CategoryMapper">
-    <delete id="delById">
-        delete
-        from category
-        where id in
-        <foreach collection="ids" item="id" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </delete>
-    <select id="getCategories">
-        select id, name
-        from category
-        <where>
-            <if test="name != null and name !=''">
-                name like concat('%',#{name},'%')
-            </if>
-        </where>
-    </select>
-</mapper>
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<!DOCTYPE mapper-->
+<!--        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+<!--<mapper namespace="com.supply_chain.mapper.CategoryMapper">-->
+<!--    <delete id="delById">-->
+<!--        delete-->
+<!--        from category-->
+<!--        where id in-->
+<!--        <foreach collection="ids" item="id" open="(" separator="," close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </delete>-->
+<!--    <select id="getCategories">-->
+<!--        select id, name-->
+<!--        from category-->
+<!--        <where>-->
+<!--            <if test="name != null and name !=''">-->
+<!--                name like concat('%',#{name},'%')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+<!--</mapper>-->

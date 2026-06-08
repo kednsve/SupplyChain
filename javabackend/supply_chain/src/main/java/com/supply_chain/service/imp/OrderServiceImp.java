@@ -5,7 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.supply_chain.mapper.OrderMapper;
 import com.supply_chain.pojo.Order;
-import com.supply_chain.pojo.PageBean;
+import com.supply_chain.vo.PageBean;
 import com.supply_chain.service.LogisticsService;
 import com.supply_chain.service.OrderItemsService;
 import com.supply_chain.service.OrderService;

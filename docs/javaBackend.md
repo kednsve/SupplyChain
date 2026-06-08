@@ -119,3 +119,21 @@
 ​	List<Department> getDepartments
 
 ​		通过姓名模糊查询部门
+
+## Category
+
+​	void delById
+
+​		通过id删除类别
+
+​	void update
+
+​		修改类别
+
+​	Category getById
+
+​		通过id查询类别
+
+​	List<Category> getCategories
+
+​		通过姓名模糊查询，分页

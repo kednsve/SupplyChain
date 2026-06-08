@@ -1,7 +1,7 @@
 package com.supply_chain.service;
 
 import com.supply_chain.pojo.Department;
-import com.supply_chain.pojo.PageBean;
+import com.supply_chain.vo.PageBean;
 
 public interface DepartmentService {
     void delById(Integer[] ids);

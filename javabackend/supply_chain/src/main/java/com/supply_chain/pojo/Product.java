@@ -1,5 +1,6 @@
 package com.supply_chain.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,7 @@ public class Product {
     private Integer categoryId;
     // 部门id
     private Integer departmentId;
+    // 逻辑删除
+    @TableLogic
+    private Short isDeleted;
 }

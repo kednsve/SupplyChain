@@ -2,7 +2,7 @@ package com.supply_chain.service;
 
 
 import com.supply_chain.pojo.Customer;
-import com.supply_chain.pojo.PageBean;
+import com.supply_chain.vo.PageBean;
 
 
 public interface CustomerService {

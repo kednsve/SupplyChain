@@ -1,7 +1,7 @@
 package com.supply_chain.service;
 
 import com.supply_chain.pojo.Order;
-import com.supply_chain.pojo.PageBean;
+import com.supply_chain.vo.PageBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

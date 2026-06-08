@@ -1,11 +1,13 @@
 package com.supply_chain.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.supply_chain.pojo.Category;
-import com.supply_chain.pojo.PageBean;
-import com.supply_chain.pojo.Result;
 import com.supply_chain.service.CategoryService;
+import com.supply_chain.vo.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,8 +16,8 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @DeleteMapping("/{ids}")
-    Result delById(@PathVariable Integer[] ids) {
-        categoryService.delById(ids);
+    Result delById(@PathVariable List<Integer> ids) {
+        categoryService.delByIds(ids);
         return Result.success();
     }
 
@@ -37,7 +39,7 @@ public class CategoryController {
             @RequestParam(defaultValue = "10") Integer pageSize,
             String name
     ) {
-        PageBean pageBean = categoryService.getCategories(page, pageSize, name);
-        return Result.success(pageBean);
+        Page<Category> categoryPage = categoryService.getCategories(page, pageSize, name);
+        return Result.success(categoryPage);
     }
 }

@@ -1,6 +1,6 @@
 package com.supply_chain.service;
 
-import com.supply_chain.pojo.PageBean;
+import com.supply_chain.vo.PageBean;
 import com.supply_chain.pojo.Product;
 
 import java.math.BigDecimal;

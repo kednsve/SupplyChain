@@ -3,7 +3,7 @@ package com.supply_chain.service.imp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.supply_chain.mapper.ProductMapper;
-import com.supply_chain.pojo.PageBean;
+import com.supply_chain.vo.PageBean;
 import com.supply_chain.pojo.Product;
 import com.supply_chain.service.ProductService;
 import lombok.RequiredArgsConstructor;

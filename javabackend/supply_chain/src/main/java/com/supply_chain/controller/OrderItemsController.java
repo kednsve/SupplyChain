@@ -1,7 +1,7 @@
 package com.supply_chain.controller;
 
 import com.supply_chain.pojo.OrderItems;
-import com.supply_chain.pojo.Result;
+import com.supply_chain.vo.Result;
 import com.supply_chain.service.OrderItemsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -1,8 +1,8 @@
 package com.supply_chain.controller;
 
 import com.supply_chain.pojo.Customer;
-import com.supply_chain.pojo.PageBean;
-import com.supply_chain.pojo.Result;
+import com.supply_chain.vo.PageBean;
+import com.supply_chain.vo.Result;
 import com.supply_chain.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

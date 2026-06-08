@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.supply_chain.mapper.LogisticsMapper;
 import com.supply_chain.pojo.Logistics;
-import com.supply_chain.pojo.PageBean;
+import com.supply_chain.vo.PageBean;
 import com.supply_chain.service.LogisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
