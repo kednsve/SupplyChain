@@ -1,0 +1,31 @@
+package com.supply_chain.vo;
+
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class OrderItemsVO {
+    // id
+    private Integer id;
+    // 订单id
+    private Integer orderId;
+    // 商品id
+    private Integer productId;
+    // 商品名称
+    private String productName;
+    // 数量
+    private Integer quantity;
+    // 单价
+    private BigDecimal unitPrice;
+    // 总价
+    private BigDecimal total;
+    // 逻辑删除
+    @TableLogic
+    private Short isDeleted;
+}

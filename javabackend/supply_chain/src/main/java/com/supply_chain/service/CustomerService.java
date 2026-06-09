@@ -1,16 +1,32 @@
 package com.supply_chain.service;
 
-
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.supply_chain.pojo.Customer;
-import com.supply_chain.vo.PageBean;
 
+import java.util.List;
 
-public interface CustomerService {
-    Customer selectById(Integer id);
+//
+//
+//import com.supply_chain.pojo.Customer;
+//import com.supply_chain.vo.PageBean;
+//
+//
+//public interface CustomerService {
+//    Customer selectById(Integer id);
+//
+//    PageBean page(Integer start, Integer pageSize, String name, String segment);
+//
+//    void update(Customer customer);
+//
+//    void deleteByCustomerId(Integer[] id);
+//}
+public interface CustomerService extends IService<Customer> {
+    Customer selById(Integer id);
 
-    PageBean page(Integer start, Integer pageSize, String name, String segment);
+    Page<Customer> getCustomers(Integer page, Integer pageSize, String name, String segment);
 
     void update(Customer customer);
 
-    void deleteByCustomerId(Integer[] id);
+    void delById(List<Integer> ids);
 }

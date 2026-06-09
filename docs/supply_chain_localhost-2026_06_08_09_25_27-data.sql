@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int NOT NULL,
   `name` varchar(30) NOT NULL,
-  `id_deleted` tinyint NOT NULL DEFAULT '0',
+  `is_deleted` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -41,7 +41,7 @@ CREATE TABLE `customer` (
   `id` int NOT NULL,
   `name` varchar(30) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `segment` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
-  `id_deleted` tinyint NOT NULL DEFAULT '0',
+  `is_deleted` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   CONSTRAINT `ck_segment` CHECK ((`segment` in (_latin1'Consumer',_latin1'Home Office',_latin1'Corporate')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department` (
   `id` int NOT NULL,
   `name` varchar(30) NOT NULL,
-  `id_deleted` tinyint NOT NULL DEFAULT '0',
+  `is_deleted` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -78,7 +78,7 @@ CREATE TABLE `logistics` (
   `shipping_date` date NOT NULL,
   `shipping_mode` varchar(20) NOT NULL,
   `order_id` int NOT NULL,
-  `id_deleted` tinyint NOT NULL DEFAULT '0',
+  `is_deleted` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_logistics_order` (`order_id`),
   CONSTRAINT `fk_logistics_order` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`),
@@ -104,7 +104,7 @@ CREATE TABLE `order` (
   `region` varchar(20) NOT NULL,
   `country` varchar(40) NOT NULL,
   `city` varchar(40) NOT NULL,
-  `id_deleted` tinyint NOT NULL DEFAULT '0',
+  `is_deleted` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_order_customer` (`customer_id`),
   CONSTRAINT `fk_order_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`),
@@ -127,7 +127,7 @@ CREATE TABLE `order_items` (
   `quantity` int NOT NULL,
   `unit_price` decimal(10,2) NOT NULL,
   `total` decimal(10,2) GENERATED ALWAYS AS ((`quantity` * `unit_price`)) VIRTUAL,
-  `id_deleted` tinyint NOT NULL DEFAULT '0',
+  `is_deleted` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_order_items_order` (`order_id`),
   KEY `fk_order_items_product` (`product_id`),
@@ -152,7 +152,7 @@ CREATE TABLE `product` (
   `price` decimal(10,2) NOT NULL,
   `category_id` int NOT NULL,
   `department_id` int NOT NULL,
-  `id_deleted` tinyint NOT NULL DEFAULT '0',
+  `is_deleted` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_product_category` (`category_id`),
   KEY `fk_product_department` (`department_id`),

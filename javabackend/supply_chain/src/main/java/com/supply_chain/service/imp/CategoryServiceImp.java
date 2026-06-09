@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.supply_chain.mapper.CategoryMapper;
 import com.supply_chain.pojo.Category;
 import com.supply_chain.service.CategoryService;
+import com.supply_chain.utils.ChkNotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -76,9 +77,10 @@ public class CategoryServiceImp extends ServiceImpl<CategoryMapper, Category> im
     @Override
     public Page<Category> getCategories(Integer page, Integer pageSize, String name) {
         Page<Category> categoryPage = new Page<>(page, pageSize);
-        return categoryMapper.selectPage(categoryPage,
-                                         new LambdaQueryWrapper<Category>()
-                                                 .like(name!=null,Category::getName,name)
+        return categoryMapper.selectPage(
+                categoryPage,
+                new LambdaQueryWrapper<Category>()
+                        .like(ChkNotNull.check(name), Category::getName, name)
         );
     }
 

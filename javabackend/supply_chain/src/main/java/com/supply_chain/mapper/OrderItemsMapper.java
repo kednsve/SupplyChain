@@ -1,24 +1,38 @@
 package com.supply_chain.mapper;
+//
+//import com.supply_chain.pojo.OrderItems;
+//import org.apache.ibatis.annotations.Mapper;
+//import org.apache.ibatis.annotations.Select;
+//import org.apache.ibatis.annotations.Update;
+//
+//import java.util.List;
+//
+//@Mapper
+//public interface OrderItemsMapper {
+//    void delByOrderId(Integer[] ids);
+//
+//    @Update("""
+//            update order_items
+//            set quantity = #{quantity},
+//                unit_price = #{unitPrice}
+//            where id=#{id}
+//            """)
+//    void update(OrderItems orderItems);
+//
+//    @Select("select id, order_id, product_id, quantity, unit_price, total from order_items where order_id=#{id}")
+//    List<OrderItems> getByOrderId(Integer id);
+//}
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.supply_chain.pojo.OrderItems;
+import com.supply_chain.vo.OrderItemsVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
-public interface OrderItemsMapper {
-    void delByOrderId(Integer[] ids);
-
-    @Update("""
-            update order_items
-            set quantity = #{quantity},
-                unit_price = #{unitPrice}
-            where id=#{id}
-            """)
-    void update(OrderItems orderItems);
-
-    @Select("select id, order_id, product_id, quantity, unit_price, total from order_items where order_id=#{id}")
-    List<OrderItems> getByOrderId(Integer id);
+public interface OrderItemsMapper extends BaseMapper<OrderItems> {
+    List<OrderItemsVO> selByOrderId(@Param("ew") QueryWrapper<OrderItems> queryWrapper);
 }
