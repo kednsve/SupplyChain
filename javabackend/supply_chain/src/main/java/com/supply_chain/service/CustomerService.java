@@ -2,6 +2,7 @@ package com.supply_chain.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.supply_chain.dto.CustomerDTO;
 import com.supply_chain.pojo.Customer;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import java.util.List;
 public interface CustomerService extends IService<Customer> {
     Customer selById(Integer id);
 
-    Page<Customer> getCustomers(Integer page, Integer pageSize, String name, String segment);
+    Page<Customer> getCustomers(CustomerDTO customerDTO);
 
     void update(Customer customer);
 

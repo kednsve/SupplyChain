@@ -1,6 +1,5 @@
 package com.supply_chain.vo;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +24,4 @@ public class OrderItemsVO {
     private BigDecimal unitPrice;
     // 总价
     private BigDecimal total;
-    // 逻辑删除
-    @TableLogic
-    private Short isDeleted;
 }

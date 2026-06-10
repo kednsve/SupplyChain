@@ -2,9 +2,10 @@ package com.supply_chain.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.supply_chain.dto.DepartmentDTO;
 import com.supply_chain.pojo.Department;
-import com.supply_chain.vo.Result;
 import com.supply_chain.service.DepartmentService;
+import com.supply_chain.vo.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,13 +34,9 @@ public class DepartmentController {
         return Result.success(departmentService.getById(id));
     }
 
-    @GetMapping
-    Result getDepartments(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            String name
-    ) {
-        Page<Department> departmentPage = departmentService.getDepartments(page, pageSize, name);
+    @PostMapping
+    Result getDepartments(@RequestBody DepartmentDTO departmentDTO) {
+        Page<Department> departmentPage = departmentService.getDepartments(departmentDTO);
         return Result.success(departmentPage);
     }
 }

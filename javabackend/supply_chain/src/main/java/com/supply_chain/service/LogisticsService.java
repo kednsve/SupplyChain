@@ -2,9 +2,9 @@ package com.supply_chain.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.supply_chain.dto.LogisticsDTO;
 import com.supply_chain.pojo.Logistics;
 
-import java.time.LocalDate;
 import java.util.List;
 
 //
@@ -42,17 +42,5 @@ public interface LogisticsService extends IService<Logistics> {
 
     Logistics selByOrderId(Integer orderId);
 
-    Page<Logistics> getLogistics(
-            Integer page,
-            Integer pageSize,
-            Integer daysRealMin,
-            Integer daysRealMax,
-            Integer daysScheduledMin,
-            Integer daysScheduledMax,
-            String deliveryStatus,
-            Short lateRisk,
-            LocalDate shippingDateBegin,
-            LocalDate shippingDateEnd,
-            String shippingMode
-    );
+    Page<Logistics> getLogistics(LogisticsDTO logisticsDTO);
 }

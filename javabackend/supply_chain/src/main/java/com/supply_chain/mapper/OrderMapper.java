@@ -42,7 +42,11 @@ package com.supply_chain.mapper;
 //    void updateSales(Integer id, BigDecimal sales);
 //}
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.supply_chain.pojo.Order;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface OrderMapper {}
+public interface OrderMapper extends BaseMapper<Order> {
+
+}

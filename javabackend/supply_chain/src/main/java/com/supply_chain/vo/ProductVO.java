@@ -1,6 +1,5 @@
 package com.supply_chain.vo;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +26,4 @@ public class ProductVO {
     private Integer departmentId;
     // 部门名称
     private String departmentName;
-    // 逻辑删除
-    @TableLogic
-    private Short isDeleted;
 }

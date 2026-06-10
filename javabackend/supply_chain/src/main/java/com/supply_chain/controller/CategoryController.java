@@ -1,6 +1,7 @@
 package com.supply_chain.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.supply_chain.dto.CategoryDTO;
 import com.supply_chain.pojo.Category;
 import com.supply_chain.service.CategoryService;
 import com.supply_chain.vo.Result;
@@ -33,13 +34,9 @@ public class CategoryController {
         return Result.success(category);
     }
 
-    @GetMapping
-    Result getCategories(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            String name
-    ) {
-        Page<Category> categoryPage = categoryService.getCategories(page, pageSize, name);
+    @PostMapping
+    Result getCategories(@RequestBody CategoryDTO categoryDTO) {
+        Page<Category> categoryPage = categoryService.getCategories(categoryDTO);
         return Result.success(categoryPage);
     }
 }

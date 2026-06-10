@@ -3,6 +3,7 @@ package com.supply_chain.service.imp;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.supply_chain.dto.CustomerDTO;
 import com.supply_chain.mapper.CustomerMapper;
 import com.supply_chain.pojo.Customer;
 import com.supply_chain.service.CustomerService;
@@ -69,7 +70,11 @@ public class CustomerServiceImp extends ServiceImpl<CustomerMapper, Customer> im
     }
 
     @Override
-    public Page<Customer> getCustomers(Integer page, Integer pageSize, String name, String segment) {
+    public Page<Customer> getCustomers(CustomerDTO customerDTO) {
+        Integer page =  customerDTO.getPage();
+        Integer pageSize = customerDTO.getPageSize();
+        String name = customerDTO.getName();
+        String segment =  customerDTO.getSegment();
         Page<Customer> pageConfig = new Page<>(page, pageSize);
         return customerMapper.selectPage(
                 pageConfig,

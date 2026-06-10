@@ -1,12 +1,12 @@
 package com.supply_chain.controller;
 
+import com.supply_chain.dto.ProductDTO;
 import com.supply_chain.pojo.Product;
 import com.supply_chain.service.ProductService;
 import com.supply_chain.vo.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 //
@@ -88,24 +88,8 @@ public class ProductController {
         return Result.success(productService.selById(id));
     }
 
-    @GetMapping
-    Result getProducts(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            String name,
-            BigDecimal priceLow,
-            BigDecimal priceHigh,
-            Integer categoryId,
-            Integer departmentId
-    ) {
-        return Result.success(productService.getProducts(
-                page,
-                pageSize,
-                name,
-                priceLow,
-                priceHigh,
-                categoryId,
-                departmentId
-        ));
+    @PostMapping
+    Result getProducts(@RequestBody ProductDTO productDTO) {
+        return Result.success(productService.getProducts(productDTO));
     }
 }

@@ -1,36 +1,24 @@
-//package com.supply_chain.service;
-//
-//import com.supply_chain.pojo.Order;
-//import com.supply_chain.vo.PageBean;
-//
-//import java.math.BigDecimal;
-//import java.time.LocalDate;
-//
-//public interface OrderService {
-//    Order getOrderById(Integer id);
-//
-//    PageBean getOrders(
-//            Integer page,
-//            Integer pageSize,
-//            LocalDate start,
-//            LocalDate end,
-//            Integer customerId,
-//            Float salesMin,
-//            Float salesMax,
-//            String status,
-//            String region,
-//            String country,
-//            String city
-//    );
-//
-//    void deleteByCustomerId(Integer[] ids);
-//
-//    void deleteByOrderId(Integer[] ids);
-//
-//    void update(Order order);
-//
-//    Integer[] getIdByCustomerId(Integer[] ids);
-//
-//    void updateSales(Integer id, BigDecimal sales);
-//
-//}
+package com.supply_chain.service;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.supply_chain.dto.OrderDTO;
+import com.supply_chain.pojo.Order;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+public interface OrderService extends IService<Order> {
+    Order selById(Integer id);
+
+    Page<Order> getOrders(OrderDTO orderDTO);
+
+    void delByCustomerId(List<Integer> ids);
+
+    void delById(List<Integer> ids);
+
+    void update(Order order);
+
+    void updateSales(Integer id, BigDecimal sales);
+
+}

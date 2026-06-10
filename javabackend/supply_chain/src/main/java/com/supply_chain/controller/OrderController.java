@@ -13,6 +13,16 @@ package com.supply_chain.controller;
 //@RequestMapping("/api/order")
 //@RequiredArgsConstructor
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.supply_chain.dto.OrderDTO;
+import com.supply_chain.pojo.Order;
+import com.supply_chain.service.OrderService;
+import com.supply_chain.vo.Result;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 //public class OrderController {
 //    private final OrderService orderService;
 //
@@ -64,3 +74,33 @@ package com.supply_chain.controller;
 //        return Result.success();
 //    }
 //}
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/order")
+public class OrderController {
+    private final OrderService orderService;
+
+    @GetMapping("/{id}")
+    Result selById(@PathVariable Integer id) {
+        Order order = orderService.selById(id);
+        return Result.success(order);
+    }
+
+    @PostMapping
+    Result getOrders(@RequestBody OrderDTO orderDTO) {
+        Page<Order> orderPage = orderService.getOrders(orderDTO);
+        return Result.success(orderPage);
+    }
+
+    @DeleteMapping("/{ids}")
+    Result delById(@PathVariable List<Integer> ids) {
+        orderService.delById(ids);
+        return Result.success();
+    }
+
+    @DeleteMapping("/CustomerId")
+    Result delByCustomerId(@RequestParam List<Integer> customerId) {
+        orderService.delByCustomerId(customerId);
+        return Result.success();
+    }
+}

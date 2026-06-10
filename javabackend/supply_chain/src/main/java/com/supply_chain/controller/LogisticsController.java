@@ -1,13 +1,13 @@
 package com.supply_chain.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.supply_chain.dto.LogisticsDTO;
 import com.supply_chain.pojo.Logistics;
 import com.supply_chain.service.LogisticsService;
 import com.supply_chain.vo.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 //
@@ -100,33 +100,9 @@ public class LogisticsController {
         return Result.success(logistics);
     }
 
-    @GetMapping
-    Result getLogistics(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            Integer daysRealMin,
-            Integer daysRealMax,
-            Integer daysScheduledMin,
-            Integer daysScheduledMax,
-            String deliveryStatus,
-            Short lateRisk,
-            LocalDate shippingDateBegin,
-            LocalDate shippingDateEnd,
-            String shippingMode
-    ) {
-        Page<Logistics> logisticsPage = logisticsService.getLogistics(
-                page,
-                pageSize,
-                daysRealMin,
-                daysRealMax,
-                daysScheduledMin,
-                daysScheduledMax,
-                deliveryStatus,
-                lateRisk,
-                shippingDateBegin,
-                shippingDateEnd,
-                shippingMode
-        );
+    @PostMapping
+    Result getLogistics(@RequestBody LogisticsDTO logisticsDTO) {
+        Page<Logistics> logisticsPage = logisticsService.getLogistics(logisticsDTO);
         return Result.success(logisticsPage);
     }
 }

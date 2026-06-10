@@ -3,6 +3,7 @@ package com.supply_chain.service.imp;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.supply_chain.dto.DepartmentDTO;
 import com.supply_chain.mapper.DepartmentMapper;
 import com.supply_chain.pojo.Department;
 import com.supply_chain.service.DepartmentService;
@@ -76,7 +77,10 @@ public class DepartmentServiceImp extends ServiceImpl<DepartmentMapper, Departme
     }
 
     @Override
-    public Page<Department> getDepartments(Integer page, Integer pageSize, String name) {
+    public Page<Department> getDepartments(DepartmentDTO departmentDTO) {
+        Integer page = departmentDTO.getPage();
+        Integer pageSize = departmentDTO.getPageSize();
+        String name = departmentDTO.getName();
         Page<Department> departmentPage = new Page<>(page, pageSize);
         return departmentMapper.selectPage(
                 departmentPage,

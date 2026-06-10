@@ -1,0 +1,13 @@
+package com.supply_chain.dto;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class CustomerDTO extends PageQuery{
+    String name;
+    String segment;
+}

@@ -1,5 +1,6 @@
 package com.supply_chain.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.supply_chain.dto.OrderItemsDTO;
 import com.supply_chain.pojo.OrderItems;
 import com.supply_chain.service.OrderItemsService;
 import com.supply_chain.vo.OrderItemsVO;
@@ -67,23 +68,9 @@ public class OrderItemsController {
         return Result.success(voList);
     }
 
-    @GetMapping
-    Result getOrderItems(
-            Integer page,
-            Integer pageSize,
-            Integer productId,
-            Integer quantity,
-            Integer unitPriceLow,
-            Integer unitPriceHigh
-    ) {
-        Page<OrderItemsVO> voPage = orderItemsService.getOrderItems(
-                page,
-                pageSize,
-                productId,
-                quantity,
-                unitPriceLow,
-                unitPriceHigh
-        );
+    @PostMapping
+    Result getOrderItems(@RequestBody OrderItemsDTO orderItemsDTO) {
+        Page<OrderItemsVO> voPage = orderItemsService.getOrderItems(orderItemsDTO);
         return Result.success(voPage);
     }
 }

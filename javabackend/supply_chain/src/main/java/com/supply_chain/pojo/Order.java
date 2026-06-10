@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -29,8 +28,6 @@ public class Order {
     private String country;
     // 城市
     private String city;
-    // 订单物品
-    List<OrderItems>  orderItems;
     // 逻辑删除
     @TableLogic
     private Short isDeleted;

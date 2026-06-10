@@ -2,6 +2,7 @@ package com.supply_chain.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.supply_chain.dto.OrderItemsDTO;
 import com.supply_chain.pojo.OrderItems;
 import com.supply_chain.vo.OrderItemsVO;
 
@@ -26,12 +27,5 @@ public interface OrderItemsService extends IService<OrderItems> {
 
     List<OrderItemsVO> selByOrderId(Integer orderId);
 
-    Page<OrderItemsVO> getOrderItems(
-            Integer page,
-            Integer pageSize,
-            Integer productId,
-            Integer quantity,
-            Integer unitPriceLow,
-            Integer unitPriceHigh
-    );
+    Page<OrderItemsVO> getOrderItems(OrderItemsDTO orderItemsDTO);
 }

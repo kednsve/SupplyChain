@@ -3,6 +3,7 @@ package com.supply_chain.service.imp;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.supply_chain.dto.LogisticsDTO;
 import com.supply_chain.mapper.LogisticsMapper;
 import com.supply_chain.pojo.Logistics;
 import com.supply_chain.service.LogisticsService;
@@ -102,19 +103,18 @@ public class LogisticsServiceImp extends ServiceImpl<LogisticsMapper, Logistics>
     }
 
     @Override
-    public Page<Logistics> getLogistics(
-            Integer page,
-            Integer pageSize,
-            Integer daysRealMin,
-            Integer daysRealMax,
-            Integer daysScheduledMin,
-            Integer daysScheduledMax,
-            String deliveryStatus,
-            Short lateRisk,
-            LocalDate shippingDateBegin,
-            LocalDate shippingDateEnd,
-            String shippingMode
-    ) {
+    public Page<Logistics> getLogistics(LogisticsDTO logisticsDTO) {
+        Integer page = logisticsDTO.getPage();
+        Integer pageSize = logisticsDTO.getPageSize();
+        Integer daysRealMin = logisticsDTO.getDaysRealMin();
+        Integer daysRealMax = logisticsDTO.getDaysRealMax();
+        Integer daysScheduledMin = logisticsDTO.getDaysScheduledMin();
+        Integer daysScheduledMax = logisticsDTO.getDaysScheduledMax();
+        String deliveryStatus = logisticsDTO.getDeliveryStatus();
+        Short lateRisk = logisticsDTO.getLateRisk();
+        LocalDate shippingDateBegin = logisticsDTO.getShippingDateBegin();
+        LocalDate shippingDateEnd = logisticsDTO.getShippingDateEnd();
+        String shippingMode = logisticsDTO.getShippingMode();
         Page<Logistics> logisticsPage = new Page<>(page, pageSize);
         return logisticsMapper.selectPage(
                 logisticsPage,

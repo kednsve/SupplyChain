@@ -2,6 +2,7 @@ package com.supply_chain.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.supply_chain.dto.DepartmentDTO;
 import com.supply_chain.pojo.Department;
 
 import java.util.List;
@@ -23,5 +24,5 @@ public interface DepartmentService extends IService<Department> {
     void delById(List<Integer> ids);
     void update(Department department);
     Department getById(Integer id);
-    Page<Department> getDepartments(Integer page,Integer pageSize,String name);
+    Page<Department> getDepartments(DepartmentDTO departmentDTO);
 }

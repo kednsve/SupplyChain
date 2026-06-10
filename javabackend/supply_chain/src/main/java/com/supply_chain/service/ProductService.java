@@ -2,10 +2,10 @@ package com.supply_chain.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.supply_chain.dto.ProductDTO;
 import com.supply_chain.pojo.Product;
 import com.supply_chain.vo.ProductVO;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 //
@@ -38,13 +38,5 @@ public interface ProductService extends IService<Product> {
 
     ProductVO selById(Integer id);
 
-    Page<ProductVO> getProducts(
-            Integer page,
-            Integer pageSize,
-            String name,
-            BigDecimal priceLow,
-            BigDecimal priceHigh,
-            Integer categoryId,
-            Integer departmentId
-    );
+    Page<ProductVO> getProducts(ProductDTO productDTO);
 }

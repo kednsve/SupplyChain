@@ -44,6 +44,7 @@ package com.supply_chain.controller;
 //    }
 //}
 
+import com.supply_chain.dto.CustomerDTO;
 import com.supply_chain.pojo.Customer;
 import com.supply_chain.service.CustomerService;
 import com.supply_chain.vo.Result;
@@ -63,14 +64,9 @@ public class CustomerController {
         return Result.success(customerService.selById(id));
     }
 
-    @GetMapping
-    Result getCustomers(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            String name,
-            String segment
-    ) {
-        return Result.success(customerService.getCustomers(page, pageSize, name, segment));
+    @PostMapping
+    Result getCustomers(@RequestBody CustomerDTO customerDTO) {
+        return Result.success(customerService.getCustomers(customerDTO));
     }
 
     @PutMapping
