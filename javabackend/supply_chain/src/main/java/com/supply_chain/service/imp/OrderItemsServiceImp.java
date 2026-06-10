@@ -1,12 +1,12 @@
 package com.supply_chain.service.imp;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.supply_chain.mapper.OrderItemsMapper;
 import com.supply_chain.pojo.OrderItems;
 import com.supply_chain.service.OrderItemsService;
+import com.supply_chain.utils.ChkNotNull;
 import com.supply_chain.vo.OrderItemsVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -72,17 +72,29 @@ public class OrderItemsServiceImp extends ServiceImpl<OrderItemsMapper, OrderIte
 
     @Override
     public List<OrderItemsVO> selByOrderId(Integer orderId) {
-        return orderItemsMapper.selByOrderId(new QueryWrapper<OrderItems>().eq("order_id", orderId));
+        return orderItemsMapper.selByOrderId(
+                new LambdaQueryWrapper<OrderItems>()
+                        .eq(ChkNotNull.check(orderId), OrderItems::getOrderId, orderId)
+        );
     }
 
     @Override
-    public Page<OrderItemsVO> selByproductId(
+    public Page<OrderItemsVO> getOrderItems(
             Integer page,
             Integer pageSize,
             Integer productId,
             Integer quantity,
-            Integer unitPrice
+            Integer unitPriceLow,
+            Integer unitPriceHigh
     ) {
-        return null;
+        Page<OrderItemsVO> pageTemp = new Page<>(page, pageSize);
+        return orderItemsMapper.getOrderItems(
+                pageTemp,
+                new LambdaQueryWrapper<OrderItems>()
+                        .eq(ChkNotNull.check(productId), OrderItems::getProductId, productId)
+                        .ge(ChkNotNull.check(unitPriceLow), OrderItems::getUnitPrice, unitPriceLow)
+                        .le(ChkNotNull.check(unitPriceHigh), OrderItems::getUnitPrice, unitPriceHigh)
+                        .eq(ChkNotNull.check(quantity), OrderItems::getQuantity, quantity)
+        );
     }
 }

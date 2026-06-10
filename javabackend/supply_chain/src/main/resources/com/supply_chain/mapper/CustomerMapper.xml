@@ -3,24 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.supply_chain.mapper.CustomerMapper">
-    <select id="list" resultType="com.supply_chain.pojo.Customer">
-        select id, name, segment
-        from customer
-        <where>
-            <if test="name != null and name !=''">
-                name like concat('%',#{name},'%')
-            </if>
-            <if test="segment != null and segment != ''">
-                and segment = #{segment}
-            </if>
-        </where>
-    </select>
-    <delete id="deleteByCustomerId">
-        delete
-        from customer
-        where id in
-        <foreach collection="ids" open="(" separator="," close=")" item="id">
-            #{id}
-        </foreach>
-    </delete>
+<!--    <select id="list" resultType="com.supply_chain.pojo.Customer">-->
+<!--        select id, name, segment-->
+<!--        from customer-->
+<!--        <where>-->
+<!--            <if test="name != null and name !=''">-->
+<!--                name like concat('%',#{name},'%')-->
+<!--            </if>-->
+<!--            <if test="segment != null and segment != ''">-->
+<!--                and segment = #{segment}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+<!--    <delete id="deleteByCustomerId">-->
+<!--        delete-->
+<!--        from customer-->
+<!--        where id in-->
+<!--        <foreach collection="ids" open="(" separator="," close=")" item="id">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </delete>-->
 </mapper>

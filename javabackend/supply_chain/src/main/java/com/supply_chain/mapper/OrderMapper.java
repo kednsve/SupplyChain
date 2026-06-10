@@ -1,4 +1,4 @@
-//package com.supply_chain.mapper;
+package com.supply_chain.mapper;
 //
 //import com.supply_chain.pojo.Order;
 //import org.apache.ibatis.annotations.Mapper;
@@ -41,3 +41,8 @@
 //    @Update("update `order` set sales = #{sales} where id=#{id}")
 //    void updateSales(Integer id, BigDecimal sales);
 //}
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface OrderMapper {}

@@ -26,11 +26,12 @@ public interface OrderItemsService extends IService<OrderItems> {
 
     List<OrderItemsVO> selByOrderId(Integer orderId);
 
-    Page<OrderItemsVO> selByproductId(
+    Page<OrderItemsVO> getOrderItems(
             Integer page,
             Integer pageSize,
             Integer productId,
             Integer quantity,
-            Integer unitPrice
+            Integer unitPriceLow,
+            Integer unitPriceHigh
     );
 }

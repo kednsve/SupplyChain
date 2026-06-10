@@ -3,21 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.supply_chain.mapper.DepartmentMapper">
-    <delete id="delById">
-        delete
-        from department
-        where id in
-        <foreach collection="ids" open="(" separator="," close=")" item="id">
-            #{id}
-        </foreach>
-    </delete>
-    <select id="getDepartments">
-        select id, name
-        from department
-        <where>
-            <if test="name != null and name != ''">
-                name like concat('%',#{name},'%')
-            </if>
-        </where>
-    </select>
+<!--    <delete id="delById">-->
+<!--        delete-->
+<!--        from department-->
+<!--        where id in-->
+<!--        <foreach collection="ids" open="(" separator="," close=")" item="id">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </delete>-->
+<!--    <select id="getDepartments">-->
+<!--        select id, name-->
+<!--        from department-->
+<!--        <where>-->
+<!--            <if test="name != null and name != ''">-->
+<!--                name like concat('%',#{name},'%')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
 </mapper>

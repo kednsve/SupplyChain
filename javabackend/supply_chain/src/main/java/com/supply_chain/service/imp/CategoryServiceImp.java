@@ -71,7 +71,7 @@ public class CategoryServiceImp extends ServiceImpl<CategoryMapper, Category> im
 
     @Override
     public Category getById(Integer id) {
-        return null;
+        return categoryMapper.selectById(id);
     }
 
     @Override
