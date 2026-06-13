@@ -1,80 +1,123 @@
 <template>
-  <el-container
-    ><el-header class="title"><h1>供应链优化分析平台</h1></el-header></el-container
-  >
-  <el-container class="frame" style="height: 500px">
-    <el-aside width="200px">
-      <el-scrollbar>
-        <el-menu>
-          <router-link to="/home" v-on:click="changeChildTitle('总览')">
-            <el-menu-item>总览</el-menu-item>
-          </router-link>
-          <router-link to="/customer" v-on:click="changeChildTitle('用户信息')">
-            <el-menu-item>用户信息</el-menu-item>
-          </router-link>
-          <el-sub-menu index="1">
-            <template #title> 订单信息 </template>
-            <router-link to="/order" v-on:click="changeChildTitle('订单信息')">
-              <el-menu-item index="1-1"> 订单信息 </el-menu-item>
-            </router-link>
-            <router-link to="/orderItems" v-on:click="changeChildTitle('订单商品信息')">
-              <el-menu-item index="1-2"> 订单商品信息 </el-menu-item>
-            </router-link>
-          </el-sub-menu>
-          <el-sub-menu index="2">
-            <template #title>产品信息</template>
-            <router-link to="/product" v-on:click="changeChildTitle('产品信息')">
-              <el-menu-item index="2-1">产品信息</el-menu-item>
-            </router-link>
-            <router-link to="/category" v-on:click="changeChildTitle('分类信息')">
-              <el-menu-item index="2-2">分类信息</el-menu-item>
-            </router-link>
-          </el-sub-menu>
-        </el-menu>
-      </el-scrollbar>
-    </el-aside>
-
+  <div class="app-container">
     <el-container>
+      <el-header class="title"><h1>供应链优化分析平台</h1></el-header>
+    </el-container>
+    <el-container class="frame">
+      <el-aside width="200px">
+        <el-scrollbar>
+          <el-menu>
+            <router-link to="/home">
+              <el-menu-item index="1">总览</el-menu-item>
+            </router-link>
+            <router-link to="/customer">
+              <el-menu-item index="2">用户信息</el-menu-item>
+            </router-link>
+            <el-sub-menu index="3">
+              <template #title> 订单信息 </template>
+              <router-link to="/order">
+                <el-menu-item index="3-1"> 订单信息 </el-menu-item>
+              </router-link>
+              <router-link to="/orderItems">
+                <el-menu-item index="3-2"> 订单商品信息 </el-menu-item>
+              </router-link>
+            </el-sub-menu>
+            <el-sub-menu index="4">
+              <template #title>产品信息</template>
+              <router-link to="/product">
+                <el-menu-item index="4-1">产品信息</el-menu-item>
+              </router-link>
+              <router-link to="/category">
+                <el-menu-item index="4-2">分类信息</el-menu-item>
+              </router-link>
+            </el-sub-menu>
+            <router-link to="/department">
+              <el-menu-item index="5">部门信息</el-menu-item>
+            </router-link>
+          </el-menu>
+        </el-scrollbar>
+      </el-aside>
+
       <el-container>
-        <el-header>
-          <div>{{ childTitle }}</div>
-        </el-header>
-        <el-main>
-          <router-view />
-        </el-main>
+        <el-container>
+          <el-header>
+            <div class="childTitle">{{ childTitle }}</div>
+          </el-header>
+          <el-main>
+            <router-view />
+          </el-main>
+        </el-container>
       </el-container>
     </el-container>
-  </el-container>
+  </div>
 </template>
 
 <script lang="ts" setup>
-defineOptions({name:'frame'})
-import { ElContainer, ElHeader, ElMenu, ElSubMenu } from 'element-plus'
-import { RouterView, RouterLink } from 'vue-router'
-import { ref } from 'vue'
-let childTitle = ref()
-function changeChildTitle(title: String) {
-  childTitle.value = title
-}
+defineOptions({ name: 'frame' })
+import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
+
+let childTitle = ref('总览')
+const route = useRoute()
+watch(
+  () => route.meta.title,
+  (newTitle) => {
+    if (newTitle) {
+      childTitle.value = newTitle as string
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration-line: none;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 .title {
-  background-color: var(--el-color-primary-light-3);
+  background-color: rgb(24, 102, 206);
 }
 .title h1 {
   margin: auto;
-  text-shadow: 1px 2px grey;
+  color: white;
+  text-shadow: 2px 3px grey;
   text-align: center;
+  height: 60px;
+  line-height: 60px;
+}
+.el-menu-item,
+.el-sub-menu {
+  background-color: var(--el-color-primary-light-5);
 }
 
+.frame {
+  height: 100%;
+}
 .frame .el-aside {
   color: var(--el-text-color-primary);
-  background: var(--el-color-primary-light-5);
+  background: #cbe5ff;
 }
 
 .frame .el-menu {
   border-right: none;
+}
+.el-menu-item:hover {
+  background-color: transparent;
 }
 
 .frame .el-main {
@@ -84,6 +127,9 @@ function changeChildTitle(title: String) {
   position: relative;
   background-color: var(--el-color-success-light-5);
   color: var(--el-text-color-primary);
+}
+.childTitle {
+  line-height: 100%;
 }
 .frame .toolbar {
   display: inline-flex;
