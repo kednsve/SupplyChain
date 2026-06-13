@@ -4,6 +4,3 @@ export interface Customer {
   segment: string
   isDeleted: number
 }
-export interface CustomerPage {
-  records: Customer[]
-}

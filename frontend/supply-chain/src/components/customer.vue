@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useCustomerStore } from '@/stores/CustomerTable.ts'
 import { storeToRefs } from 'pinia'
-import type { ComponentSize, DialogTransition } from 'element-plus'
+import { type ComponentSize, type DialogTransition, ElMessage } from 'element-plus'
 
 import { computed, onMounted, ref } from 'vue'
 import type { Customer } from '@/types/customer.ts'
@@ -13,7 +13,9 @@ const { tableData, total } = storeToRefs(customerStore)
 const handleSelectionChange = () => {}
 
 onMounted(() => {
-  customerStore.fetchData(currentPage.value, pageSize.value)
+  if (tableData.value.length === 0) {
+    customerStore.fetchCustomers(currentPage.value, pageSize.value)
+  }
 })
 // 分页
 let selectable
@@ -25,17 +27,19 @@ const disabled = false
 
 const handleSizeChange = (changed: number) => {
   pageSize.value = changed
-  customerStore.fetchData(currentPage.value, pageSize.value)
+  customerStore.fetchCustomers(currentPage.value, pageSize.value)
 }
 const handleCurrentChange = (changed: number) => {
   currentPage.value = changed
-  customerStore.fetchData(currentPage.value, pageSize.value)
+  customerStore.fetchCustomers(currentPage.value, pageSize.value)
 }
-// 修改窗口
+// 窗口
 const dialogVisible = ref(false)
 const currentAnimation = ref('fade')
 const isObjectConfig = ref(false)
-let customer = ref<Customer | null>(null)
+let formData = ref<Record<string, any>>({})
+let operation = ref('修改数据')
+const isDisabled = ref(false)
 const transitionConfig = computed<DialogTransition>(() => {
   if (isObjectConfig.value) {
     return {
@@ -47,13 +51,58 @@ const transitionConfig = computed<DialogTransition>(() => {
   }
   return `dialog-${currentAnimation.value}`
 })
-// 修改窗口触发函数
-const openDialog = (updId: number) => {
+// 窗口触发函数
+const openDialog = (id: number, type: 'update' | 'delete') => {
+  isDisabled.value = type === 'delete'
+  operation.value = type === 'delete' ? '删除数据' : '修改数据'
+  const found = tableData.value.find((item) => item.id === id)
+  formData.value = { ...found }
   currentAnimation.value = 'bounce'
   isObjectConfig.value = false
   dialogVisible.value = true
-
-  customer.value = tableData.value.find((item) => item.id === updId) ?? null
+}
+const callExec = () => {
+  if (isDisabled.value) {
+    execDel()
+  } else {
+    execUpd()
+  }
+}
+//修改数据
+const execUpd = async () => {
+  const updCustomer = formData.value as Customer
+  const code = await customerStore.fetchUpdateCustomer(updCustomer)
+  if (code === 200) {
+    const idx = tableData.value.findIndex((item) => item.id === updCustomer.id)
+    if (idx !== -1) {
+      tableData.value[idx] = { ...updCustomer }
+      customerStore.setTableData(tableData.value)
+    }
+    operationDialog('success', '更新成功')
+    dialogVisible.value = false
+  } else {
+    operationDialog('error', '发生错误')
+  }
+}
+// 删除数据
+const execDel = async () => {
+  const delCustomer = formData.value as Customer
+  const code = await customerStore.fetchDeleteCustomer([delCustomer.id])
+  if (code === 200) {
+    await customerStore.fetchCustomers(currentPage.value, pageSize.value)
+    operationDialog('success', '删除成功')
+    dialogVisible.value = false
+  } else {
+    operationDialog('error', '发生错误')
+  }
+}
+// 消息提示
+const operationDialog = (type: 'success' | 'error', message: string) => {
+  ElMessage({
+    showClose: true,
+    type: type,
+    message: message,
+  })
 }
 </script>
 <template>
@@ -71,8 +120,8 @@ const openDialog = (updId: number) => {
     <el-table-column label="operation">
       <template #default="{ row }">
         <el-button-group>
-          <el-button plain type="success" @click="openDialog(row.id)"> 修改 </el-button>
-          <el-button type="danger">删除</el-button>
+          <el-button plain type="success" @click="openDialog(row.id, 'update')"> 修改 </el-button>
+          <el-button type="danger" @click="openDialog(row.id, 'delete')">删除</el-button>
         </el-button-group>
       </template>
     </el-table-column>
@@ -91,23 +140,37 @@ const openDialog = (updId: number) => {
   <!--  修改窗口-->
   <el-dialog
     v-model="dialogVisible"
-    :title="`修改`"
+    :title="operation"
     :transition="transitionConfig"
     class="custom-transition-dialog"
     width="30%"
   >
     <div>
-      <p>message</p>
+      <el-form :model="formData" label-width="auto" style="max-width: 600px">
+        <el-form-item label="id">
+          <el-input v-model="formData!.id" disabled />
+        </el-form-item>
+        <el-form-item label="name">
+          <el-input v-model="formData!.name" :disabled="isDisabled" />
+        </el-form-item>
+        <el-form-item label="segment">
+          <el-select v-model="formData!.segment" :disabled="isDisabled" placeholder="segment">
+            <el-option label="Consumer" value="Consumer" />
+            <el-option label="Home Office" value="Home Office" />
+            <el-option label="Corporate" value="Corporate" />
+          </el-select>
+        </el-form-item>
+      </el-form>
     </div>
     <template #footer>
       <el-button @click="dialogVisible = false">取消</el-button>
-      <el-button type="primary" @click="dialogVisible = false"> 确认 </el-button>
+      <el-button type="primary" @click="callExec"> 确认 </el-button>
     </template>
   </el-dialog>
 </template>
 <style lang="css" scoped>
 .el-pagination {
-  margin: 0 auto;
+  margin: 10px auto 0 auto;
   width: 800px;
 }
 </style>
