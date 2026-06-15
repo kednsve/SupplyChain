@@ -20,7 +20,8 @@ onMounted(() => {
 // 分页
 let selectable
 let currentPage = ref(1)
-let pageSize = ref(12)
+let pageSize = ref(10)
+let usePage = ref(true)
 const background = true
 const size = ref<ComponentSize>('default')
 const disabled = false
@@ -32,6 +33,16 @@ const handleSizeChange = (changed: number) => {
 const handleCurrentChange = (changed: number) => {
   currentPage.value = changed
   customerStore.fetchCustomers(currentPage.value, pageSize.value)
+}
+// 搜索
+let searchId = ref('')
+const searchById = () => {
+  if (!/^\d+$/.test(searchId.value)) {
+    operationDialog('error', '请输入正确的数字id')
+    return
+  }
+
+  // tableData.value=[customerStore.fetchCustomer(Number(searchId.value))]
 }
 // 窗口
 const dialogVisible = ref(false)
@@ -106,6 +117,15 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
 }
 </script>
 <template>
+  <!--  搜索与批量删除-->
+  <div class="searchById">
+    <el-input v-model="searchId" placeholder="id" style="max-width: 250px">
+      <template #append>
+        <el-button @click="searchById">搜索</el-button>
+      </template>
+    </el-input>
+  </div>
+  <!--  数据表-->
   <el-table
     ref="multipleTableRef"
     :data="tableData"
@@ -127,6 +147,7 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
     </el-table-column>
   </el-table>
   <el-pagination
+    v-show="usePage"
     v-model:current-page="currentPage"
     v-model:page-size="pageSize"
     :background="background"
@@ -172,6 +193,9 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
 .el-pagination {
   margin: 10px auto 0 auto;
   width: 800px;
+}
+.searchById {
+  margin-left: 30px;
 }
 </style>
 <!--修改窗口-->

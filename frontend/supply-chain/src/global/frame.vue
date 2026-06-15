@@ -129,7 +129,11 @@ body {
   color: var(--el-text-color-primary);
 }
 .childTitle {
-  line-height: 100%;
+  height: 50px;
+  line-height: 50px;
+  font-size: 35px;
+  margin-left: 50px;
+  text-shadow: 2px 2px #cbe5ff;
 }
 .frame .toolbar {
   display: inline-flex;
