@@ -1,21 +1,23 @@
 <script lang="ts" setup>
 import { useCustomerStore } from '@/stores/CustomerTable.ts'
 import { storeToRefs } from 'pinia'
-import { type ComponentSize, type DialogTransition, ElMessage } from 'element-plus'
+import { type ComponentSize, ElButtonGroup, ElMessage } from 'element-plus'
 
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { Customer } from '@/types/customer.ts'
 // 数据
 defineOptions({ name: 'customer' })
 const customerStore = useCustomerStore()
-const { tableData, total } = storeToRefs(customerStore)
-
+const { customerData, total } = storeToRefs(customerStore)
+const loading = ref(true)
 const handleSelectionChange = () => {}
 
 onMounted(() => {
-  if (tableData.value.length === 0) {
+  if (customerData.value.length === 0) {
     customerStore.fetchCustomers(currentPage.value, pageSize.value)
+    loading.value = false
   }
+  loading.value = false
 })
 // 分页
 let selectable
@@ -24,7 +26,6 @@ let pageSize = ref(10)
 let usePage = ref(true)
 const background = true
 const size = ref<ComponentSize>('default')
-const disabled = false
 
 const handleSizeChange = (changed: number) => {
   pageSize.value = changed
@@ -36,40 +37,38 @@ const handleCurrentChange = (changed: number) => {
 }
 // 搜索
 let searchId = ref('')
-const searchById = () => {
+let cancelShow = ref(false)
+const searchById = async () => {
   if (!/^\d+$/.test(searchId.value)) {
     operationDialog('error', '请输入正确的数字id')
     return
   }
-
-  // tableData.value=[customerStore.fetchCustomer(Number(searchId.value))]
+  usePage.value = false
+  cancelShow.value = true
+  customerData.value = [await customerStore.fetchCustomer(Number(searchId.value))]
 }
+const searchCancel = async () => {
+  await customerStore.fetchCustomers(1, pageSize.value)
+  usePage.value = true
+  searchId.value = ''
+  cancelShow.value = false
+}
+// 高级搜索
+let searchName = ref()
+let searchSegment = ref()
 // 窗口
 const dialogVisible = ref(false)
 const currentAnimation = ref('fade')
-const isObjectConfig = ref(false)
 let formData = ref<Record<string, any>>({})
 let operation = ref('修改数据')
 const isDisabled = ref(false)
-const transitionConfig = computed<DialogTransition>(() => {
-  if (isObjectConfig.value) {
-    return {
-      name: 'dialog-custom-object',
-      appear: true,
-      mode: 'out-in',
-      duration: 500,
-    }
-  }
-  return `dialog-${currentAnimation.value}`
-})
 // 窗口触发函数
 const openDialog = (id: number, type: 'update' | 'delete') => {
   isDisabled.value = type === 'delete'
   operation.value = type === 'delete' ? '删除数据' : '修改数据'
-  const found = tableData.value.find((item) => item.id === id)
+  const found = customerData.value.find((item) => item.id === id)
   formData.value = { ...found }
   currentAnimation.value = 'bounce'
-  isObjectConfig.value = false
   dialogVisible.value = true
 }
 const callExec = () => {
@@ -84,10 +83,10 @@ const execUpd = async () => {
   const updCustomer = formData.value as Customer
   const code = await customerStore.fetchUpdateCustomer(updCustomer)
   if (code === 200) {
-    const idx = tableData.value.findIndex((item) => item.id === updCustomer.id)
+    const idx = customerData.value.findIndex((item) => item.id === updCustomer.id)
     if (idx !== -1) {
-      tableData.value[idx] = { ...updCustomer }
-      customerStore.setTableData(tableData.value)
+      customerData.value[idx] = { ...updCustomer }
+      customerStore.setTableData(customerData.value)
     }
     operationDialog('success', '更新成功')
     dialogVisible.value = false
@@ -118,23 +117,49 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
 </script>
 <template>
   <!--  搜索与批量删除-->
-  <div class="searchById">
-    <el-input v-model="searchId" placeholder="id" style="max-width: 250px">
-      <template #append>
-        <el-button @click="searchById">搜索</el-button>
-      </template>
-    </el-input>
+  <div class="topline">
+    <div class="searchMore">
+      <el-collapse expand-icon-position="left">
+        <el-collapse-item title="高级">
+          <el-form class="betterSearch">
+            <el-form-item>
+              <el-input v-model="searchName" placeholder="name" style="width: 100px" />
+            </el-form-item>
+            <el-form-item>
+              <el-select v-model="searchSegment" placeholder="segment" style="width: 150px">
+                <el-option label="Consumer" value="Consumer" />
+                <el-option label="Home Office" value="Home Office" />
+                <el-option label="Corporate" value="Corporate" />
+              </el-select>
+            </el-form-item>
+          </el-form>
+        </el-collapse-item>
+      </el-collapse>
+    </div>
+    <div class="topRight">
+      <div class="searchById">
+        <el-input v-model="searchId" placeholder="id" style="max-width: 150px; height: 32px" />
+        <el-button-group style="display: flex; flex-direction: row">
+          <el-button style="margin-left: 10px" type="primary" @click="searchById">搜索</el-button>
+          <el-button v-show="cancelShow" type="info" @click="searchCancel">取消</el-button>
+        </el-button-group>
+      </div>
+      <div class="multiDel">
+        <el-button type="danger">批量删除</el-button>
+      </div>
+    </div>
   </div>
   <!--  数据表-->
   <el-table
     ref="multipleTableRef"
-    :data="tableData"
+    v-loading="loading"
+    :data="customerData"
     row-key="id"
     style="width: 100%"
     @selection-change="handleSelectionChange"
   >
     <el-table-column :selectable="selectable" type="selection" width="55" />
-    <el-table-column label="Id" property="id" width="120" />
+    <el-table-column label="Id" property="id" />
     <el-table-column label="Name" property="name" />
     <el-table-column label="Segment" property="segment" />
     <el-table-column label="operation">
@@ -151,7 +176,6 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
     v-model:current-page="currentPage"
     v-model:page-size="pageSize"
     :background="background"
-    :disabled="disabled"
     :size="size"
     :total="total"
     layout="total, prev, pager, next, jumper"
@@ -162,7 +186,7 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
   <el-dialog
     v-model="dialogVisible"
     :title="operation"
-    :transition="transitionConfig"
+    :transition="`dialog-${currentAnimation}`"
     class="custom-transition-dialog"
     width="30%"
   >
@@ -194,8 +218,30 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
   margin: 10px auto 0 auto;
   width: 800px;
 }
-.searchById {
+.topline {
   margin-left: 30px;
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+}
+.searchMore {
+  width: 600px;
+}
+.betterSearch {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.searchById {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+}
+.topRight {
+  display: flex;
+  flex-direction: row;
+  margin-left: 10%;
+  width: 40%;
 }
 </style>
 <!--修改窗口-->

@@ -7,7 +7,7 @@ const customerAxios = useCustomerAxios()
 export const useCustomerStore = defineStore('CustomerTable', {
   state: () => ({
     code: 0,
-    tableData: [] as Customer[],
+    customerData: [] as Customer[],
     loading: false,
     pages: 0,
     total: 0,
@@ -25,7 +25,7 @@ export const useCustomerStore = defineStore('CustomerTable', {
           pages: 0,
         }
 
-        this.tableData = pageData.records
+        this.customerData = pageData.records
         this.pages = pageData.pages
         this.total = pageData.total
       } finally {
@@ -68,10 +68,10 @@ export const useCustomerStore = defineStore('CustomerTable', {
       return this.code
     },
     setTableData(data: Customer[]) {
-      this.tableData = data
+      this.customerData = data
     },
     getTableData() {
-      return this.tableData
+      return this.customerData
     },
   },
 })
