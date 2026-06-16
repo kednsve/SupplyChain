@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import { ElConfigProvider } from 'element-plus';
+import { zhCn } from 'element-plus/es/locales.mjs';
 import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div class="app-container">
+  <ElConfigProvider class="app-container" :locale="zhCn">
     <RouterView />
-  </div>
+  </ElConfigProvider>
 </template>
 
 <style>

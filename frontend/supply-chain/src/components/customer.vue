@@ -1,39 +1,41 @@
 <script lang="ts" setup>
 import { useCustomerStore } from '@/stores/CustomerTable.ts'
 import { storeToRefs } from 'pinia'
-import { type ComponentSize, ElButtonGroup, ElMessage } from 'element-plus'
+import { type ComponentSize, ElButton, ElButtonGroup, ElMessage } from 'element-plus'
 
 import { onMounted, ref } from 'vue'
 import type { Customer } from '@/types/customer.ts'
+import { InfoFilled } from '@element-plus/icons-vue'
 // 数据
 defineOptions({ name: 'customer' })
 const customerStore = useCustomerStore()
-const { customerData, total } = storeToRefs(customerStore)
+const { customerData, total, current } = storeToRefs(customerStore)
 const loading = ref(true)
-const handleSelectionChange = () => {}
 
-onMounted(() => {
-  if (customerData.value.length === 0) {
-    customerStore.fetchCustomers(currentPage.value, pageSize.value)
+let tableData = ref(customerData.value)
+onMounted(async () => {
+  if (tableData.value.length === 0) {
+    if (customerData.value.length === 0) {
+      tableData.value = await customerStore.fetchCustomers(current.value, pageSize.value)
+    }
+    loading.value = false
+  } else {
     loading.value = false
   }
-  loading.value = false
 })
 // 分页
-let selectable
-let currentPage = ref(1)
 let pageSize = ref(10)
 let usePage = ref(true)
-const background = true
 const size = ref<ComponentSize>('default')
 
-const handleSizeChange = (changed: number) => {
+const handleSizeChange = async (changed: number) => {
+  current.value = 1
   pageSize.value = changed
-  customerStore.fetchCustomers(currentPage.value, pageSize.value)
+  tableData.value = await customerStore.fetchCustomers(current.value, pageSize.value)
 }
-const handleCurrentChange = (changed: number) => {
-  currentPage.value = changed
-  customerStore.fetchCustomers(currentPage.value, pageSize.value)
+const handleCurrentChange = async (changed: number) => {
+  current.value = changed
+  tableData.value = await customerStore.fetchCustomers(current.value, pageSize.value)
 }
 // 搜索
 let searchId = ref('')
@@ -43,19 +45,60 @@ const searchById = async () => {
     operationDialog('error', '请输入正确的数字id')
     return
   }
+  current.value = 1
   usePage.value = false
   cancelShow.value = true
-  customerData.value = [await customerStore.fetchCustomer(Number(searchId.value))]
+  tableData.value = [await customerStore.fetchCustomer(Number(searchId.value))]
 }
 const searchCancel = async () => {
-  await customerStore.fetchCustomers(1, pageSize.value)
+  current.value = 1
+  tableData.value = customerStore.getTableData()
   usePage.value = true
   searchId.value = ''
   cancelShow.value = false
 }
 // 高级搜索
-let searchName = ref()
-let searchSegment = ref()
+let searchName = ref<string>('')
+let searchSegment = ref<string>('')
+const BSReset = async () => {
+  searchName.value = ''
+  searchSegment.value = ''
+  tableData.value = await customerStore.fetchCustomers(1, pageSize.value)
+}
+const BSCommit = async () => {
+  loading.value = true
+  tableData.value = await customerStore.fetchCustomers(
+    1,
+    pageSize.value,
+    searchName.value,
+    searchSegment.value,
+  )
+  loading.value = false
+}
+// 批量删除
+const clicked = ref(false)
+function onCancel() {
+  clicked.value = true
+}
+let selectList = ref<number[]>([])
+const handleSelectionChange = (val: Customer[]) => {
+  selectList.value = val.map((customer) => customer.id)
+}
+const mutiDel = async () => {
+  if (selectList.value.length === 0) {
+    operationDialog('error', '请勾选要删除的信息')
+  } else {
+    const code = await customerStore.fetchDeleteCustomer(selectList.value)
+    if (code === 200) {
+      await customerStore.fetchCustomers(current.value, pageSize.value)
+      tableData.value = customerStore.getTableData()
+      operationDialog('success', '删除成功')
+    } else {
+      operationDialog('error', '删除失败')
+    }
+  }
+  clicked.value = false
+}
 // 窗口
 const dialogVisible = ref(false)
 const currentAnimation = ref('fade')
@@ -99,7 +142,7 @@ const execDel = async () => {
   const delCustomer = formData.value as Customer
   const code = await customerStore.fetchDeleteCustomer([delCustomer.id])
   if (code === 200) {
-    await customerStore.fetchCustomers(currentPage.value, pageSize.value)
+    await customerStore.fetchCustomers(current.value, pageSize.value)
     operationDialog('success', '删除成功')
     dialogVisible.value = false
   } else {
@@ -116,7 +159,7 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
 }
 </script>
 <template>
-  <!--  搜索与批量删除-->
+  <!--  搜索与批量删除 -->
   <div class="topline">
     <div class="searchMore">
       <el-collapse expand-icon-position="left">
@@ -132,20 +175,38 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
                 <el-option label="Corporate" value="Corporate" />
               </el-select>
             </el-form-item>
+            <el-button-group>
+              <el-button type="info" @click="BSReset">重置</el-button>
+              <el-button type="primary" @click="BSCommit">搜索</el-button>
+            </el-button-group>
           </el-form>
         </el-collapse-item>
       </el-collapse>
     </div>
     <div class="topRight">
       <div class="searchById">
-        <el-input v-model="searchId" placeholder="id" style="max-width: 150px; height: 32px" />
+        <el-input v-model="searchId" placeholder="id" style="width: 150px; height: 32px" />
         <el-button-group style="display: flex; flex-direction: row">
           <el-button style="margin-left: 10px" type="primary" @click="searchById">搜索</el-button>
           <el-button v-show="cancelShow" type="info" @click="searchCancel">取消</el-button>
         </el-button-group>
       </div>
       <div class="multiDel">
-        <el-button type="danger">批量删除</el-button>
+        <el-popconfirm
+          :icon="InfoFilled"
+          :title="`确认删除id为` + selectList + `的信息？`"
+          icon-color="#FF0000"
+          width="220"
+          @cancel="onCancel"
+        >
+          <template #reference>
+            <el-button type="danger">批量删除</el-button>
+          </template>
+          <template #actions="{ cancel }">
+            <el-button size="small" type="primary" @click="cancel">取消</el-button>
+            <el-button size="small" type="danger" @click="mutiDel"> 确定 </el-button>
+          </template>
+        </el-popconfirm>
       </div>
     </div>
   </div>
@@ -153,12 +214,12 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
   <el-table
     ref="multipleTableRef"
     v-loading="loading"
-    :data="customerData"
+    :data="tableData"
     row-key="id"
-    style="width: 100%"
+    style="width: 100%; height: 525px"
     @selection-change="handleSelectionChange"
   >
-    <el-table-column :selectable="selectable" type="selection" width="55" />
+    <el-table-column type="selection" width="55" />
     <el-table-column label="Id" property="id" />
     <el-table-column label="Name" property="name" />
     <el-table-column label="Segment" property="segment" />
@@ -173,12 +234,13 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
   </el-table>
   <el-pagination
     v-show="usePage"
-    v-model:current-page="currentPage"
+    v-model:current-page="current"
     v-model:page-size="pageSize"
-    :background="background"
+    :background="true"
+    :page-sizes="[5, 10, 50, 100]"
     :size="size"
     :total="total"
-    layout="total, prev, pager, next, jumper"
+    layout="total,sizes, prev, pager, next, jumper"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
   />
@@ -227,6 +289,9 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
 .searchMore {
   width: 600px;
 }
+.betterSearch .el-form-item {
+  margin-right: 10px;
+}
 .betterSearch {
   width: 100%;
   display: flex;
@@ -245,7 +310,7 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
 }
 </style>
 <!--修改窗口-->
-<style>
+<style scoped>
 /* Scale Animation */
 .dialog-scale-enter-active,
 .dialog-scale-leave-active,
