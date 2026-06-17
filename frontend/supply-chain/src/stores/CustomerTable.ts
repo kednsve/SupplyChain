@@ -15,9 +15,13 @@ export const useCustomerStore = defineStore('CustomerTable', {
     customer: {} as Customer,
   }),
   actions: {
-    async fetchCustomers(pageNum: number, pageSize: number, name?: string | null,segment?:string|null) {
-      const res = await customerAxios.fetchCustomerPage(pageNum, pageSize,name,segment)
-      console.log(res)
+    async fetchCustomers(
+      pageNum: number,
+      pageSize: number,
+      name?: string | null,
+      segment?: string | null,
+    ) {
+      const res = await customerAxios.fetchCustomerPage(pageNum, pageSize, name, segment)
       const pageData = res.data ?? {
         records: [],
         total: 0,

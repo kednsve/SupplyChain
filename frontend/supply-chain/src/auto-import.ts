@@ -14,7 +14,6 @@ declare module 'vue' {
     Category: typeof import('./components/category.vue')['default']
     Customer: typeof import('./components/customer.vue')['default']
     Department: typeof import('./components/department.vue')['default']
-    ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElCollapse: typeof import('element-plus/es')['ElCollapse']
     ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']

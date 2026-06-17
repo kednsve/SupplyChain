@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+defineOptions({ name: 'customer' })
 import { useCustomerStore } from '@/stores/CustomerTable.ts'
 import { storeToRefs } from 'pinia'
 import { type ComponentSize, ElButton, ElButtonGroup, ElMessage } from 'element-plus'
@@ -7,7 +8,6 @@ import { onMounted, ref } from 'vue'
 import type { Customer } from '@/types/customer.ts'
 import { InfoFilled } from '@element-plus/icons-vue'
 // 数据
-defineOptions({ name: 'customer' })
 const customerStore = useCustomerStore()
 const { customerData, total, current } = storeToRefs(customerStore)
 const loading = ref(true)
