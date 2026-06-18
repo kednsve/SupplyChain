@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 defineOptions({ name: 'order' })
-</script>
-<script lang="ts">
 import { useOrderStore } from '@/stores/OrderTable.ts'
 import { storeToRefs } from 'pinia'
 import { type ComponentSize, ElButton, ElButtonGroup, ElMessage } from 'element-plus'
@@ -60,21 +58,45 @@ const searchCancel = async () => {
   cancelShow.value = false
 }
 // 高级搜索
-let searchName = ref<string>('')
-let searchSegment = ref<string>('')
+let searchStart = ref<string>('')
+let searchEnd = ref<string>('')
+let searchCustomerId = ref<string>('')
+let searchSalesMin = ref<string>('')
+let searchSalesMax = ref<string>('')
+let searchStatus = ref<string>('')
+let searchRegion = ref<string>('')
+let searchCountry = ref<string>('')
+let searchCity = ref<string>('')
+
 const BSReset = async () => {
-  searchName.value = ''
-  searchSegment.value = ''
+  searchStart.value = ''
+  searchEnd.value = ''
+  searchCustomerId.value = ''
+  searchSalesMin.value = ''
+  searchSalesMax.value = ''
+  searchStatus.value = ''
+  searchRegion.value = ''
+  searchCountry.value = ''
+  searchCity.value = ''
   tableData.value = await orderStore.fetchOrders(1, pageSize.value)
 }
+
 const BSCommit = async () => {
   loading.value = true
+  console.log(searchStart.value)
+  console.log(searchEnd.value)
   tableData.value = await orderStore.fetchOrders(
-    //TODO
     1,
     pageSize.value,
-    searchName.value,
-    searchSegment.value,
+    searchStart.value || null,
+    searchEnd.value || null,
+    searchCustomerId.value ? Number(searchCustomerId.value) : null,
+    searchSalesMin.value || null,
+    searchSalesMax.value || null,
+    searchStatus.value || null,
+    searchRegion.value || null,
+    searchCountry.value || null,
+    searchCity.value || null,
   )
   loading.value = false
 }
@@ -145,7 +167,7 @@ const execDel = async () => {
   const delOrder = formData.value as Order
   const code = await orderStore.fetchDeleteOrder([delOrder.id])
   if (code === 200) {
-    await orderStore.fetchOrders(current.value, pageSize.value)
+    tableData.value = await orderStore.fetchOrders(current.value, pageSize.value)
     operationDialog('success', '删除成功')
     dialogVisible.value = false
   } else {
@@ -169,14 +191,53 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
         <el-collapse-item title="高级">
           <el-form class="betterSearch">
             <el-form-item>
-              <el-input v-model="searchName" placeholder="name" style="width: 100px" />
+              <el-date-picker
+                v-model="searchStart"
+                placeholder="start"
+                style="width: 120px"
+                type="date"
+                value-format="YYYY-MM-DD"
+              />
             </el-form-item>
             <el-form-item>
-              <el-select v-model="searchSegment" placeholder="segment" style="width: 150px">
-                <el-option label="Consumer" value="Consumer" />
-                <el-option label="Home Office" value="Home Office" />
-                <el-option label="Corporate" value="Corporate" />
+              <el-date-picker
+                v-model="searchEnd"
+                placeholder="end"
+                style="width: 120px"
+                type="date"
+                value-format="YYYY-MM-DD"
+              />
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="searchCustomerId" placeholder="customerId" style="width: 110px" />
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="searchSalesMin" placeholder="salesMin" style="width: 100px" />
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="searchSalesMax" placeholder="salesMax" style="width: 100px" />
+            </el-form-item>
+            <el-form-item>
+              <el-select v-model="searchStatus" placeholder="status" style="width: 160px">
+                <el-option label="CLOSED" value="CLOSED" />
+                <el-option label="PENDING_PAYMENT" value="PENDING_PAYMENT" />
+                <el-option label="COMPLETE" value="COMPLETE" />
+                <el-option label="PROCESSING" value="PROCESSING" />
+                <el-option label="PAYMENT_REVIEW" value="PAYMENT_REVIEW" />
+                <el-option label="PENDING" value="PENDING" />
+                <el-option label="ON_HOLD" value="ON_HOLD" />
+                <el-option label="CANCELED" value="CANCELED" />
+                <el-option label="SUSPECTED_FRAUD" value="SUSPECTED_FRAUD" />
               </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="searchRegion" placeholder="region" style="width: 100px" />
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="searchCountry" placeholder="country" style="width: 100px" />
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="searchCity" placeholder="city" style="width: 100px" />
             </el-form-item>
             <el-button-group>
               <el-button type="info" @click="BSReset">重置</el-button>
@@ -224,8 +285,13 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
   >
     <el-table-column type="selection" width="55" />
     <el-table-column label="Id" property="id" />
-    <el-table-column label="Name" property="name" />
-    <el-table-column label="Segment" property="segment" />
+    <el-table-column label="CustomerId" property="customerId" />
+    <el-table-column label="Date" property="date" />
+    <el-table-column label="Sales" property="sales" />
+    <el-table-column label="Status" property="status" />
+    <el-table-column label="Region" property="region" />
+    <el-table-column label="Country" property="country" />
+    <el-table-column label="City" property="city" />
     <el-table-column label="operation">
       <template #default="{ row }">
         <el-button-group>
@@ -243,7 +309,7 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
     :page-sizes="[5, 10, 50, 100]"
     :size="size"
     :total="total"
-    layout="total,sizes, prev, pager, next, jumper"
+    layout="total, sizes, prev, pager, next, jumper"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
   />
@@ -260,15 +326,36 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
         <el-form-item label="id">
           <el-input v-model="formData!.id" disabled />
         </el-form-item>
-        <el-form-item label="name">
-          <el-input v-model="formData!.name" :disabled="isDisabled" />
+        <el-form-item label="customerId">
+          <el-input v-model="formData!.customerId" :disabled="isDisabled" />
         </el-form-item>
-        <el-form-item label="segment">
-          <el-select v-model="formData!.segment" :disabled="isDisabled" placeholder="segment">
-            <el-option label="Consumer" value="Consumer" />
-            <el-option label="Home Office" value="Home Office" />
-            <el-option label="Corporate" value="Corporate" />
+        <el-form-item label="date">
+          <el-input v-model="formData!.date" :disabled="isDisabled" />
+        </el-form-item>
+        <el-form-item label="sales">
+          <el-input v-model="formData!.sales" :disabled="isDisabled" />
+        </el-form-item>
+        <el-form-item label="status">
+          <el-select v-model="formData!.status" :disabled="isDisabled" placeholder="status">
+            <el-option label="CLOSED" value="CLOSED" />
+            <el-option label="PENDING_PAYMENT" value="PENDING_PAYMENT" />
+            <el-option label="COMPLETE" value="COMPLETE" />
+            <el-option label="PROCESSING" value="PROCESSING" />
+            <el-option label="PAYMENT_REVIEW" value="PAYMENT_REVIEW" />
+            <el-option label="PENDING" value="PENDING" />
+            <el-option label="ON_HOLD" value="ON_HOLD" />
+            <el-option label="CANCELED" value="CANCELED" />
+            <el-option label="SUSPECTED_FRAUD" value="SUSPECTED_FRAUD" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="region">
+          <el-input v-model="formData!.region" :disabled="isDisabled" />
+        </el-form-item>
+        <el-form-item label="country">
+          <el-input v-model="formData!.country" :disabled="isDisabled" />
+        </el-form-item>
+        <el-form-item label="city">
+          <el-input v-model="formData!.city" :disabled="isDisabled" />
         </el-form-item>
       </el-form>
     </div>
@@ -299,6 +386,7 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
   width: 100%;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 .searchById {
   display: flex;
