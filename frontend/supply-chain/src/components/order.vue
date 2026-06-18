@@ -284,15 +284,15 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
     @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection" width="55" />
-    <el-table-column label="Id" property="id" />
-    <el-table-column label="CustomerId" property="customerId" />
-    <el-table-column label="Date" property="date" />
-    <el-table-column label="Sales" property="sales" />
-    <el-table-column label="Status" property="status" />
-    <el-table-column label="Region" property="region" />
-    <el-table-column label="Country" property="country" />
-    <el-table-column label="City" property="city" />
-    <el-table-column label="operation">
+    <el-table-column label="Id" property="id" width="100" />
+    <el-table-column label="CustomerId" property="customerId" width="120" />
+    <el-table-column label="Date" property="date" width="170" />
+    <el-table-column label="Sales" property="sales" width="70" />
+    <el-table-column label="Status" property="status" width="160" />
+    <el-table-column label="Region" property="region" width="150" />
+    <el-table-column label="Country" property="country" width="200" />
+    <el-table-column label="City" property="city" width="200" />
+    <el-table-column label="operation" width="150">
       <template #default="{ row }">
         <el-button-group>
           <el-button plain type="success" @click="openDialog(row.id, 'update')"> 修改 </el-button>
@@ -327,13 +327,13 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
           <el-input v-model="formData!.id" disabled />
         </el-form-item>
         <el-form-item label="customerId">
-          <el-input v-model="formData!.customerId" :disabled="isDisabled" />
+          <el-input v-model="formData!.customerId" disabled />
         </el-form-item>
         <el-form-item label="date">
-          <el-input v-model="formData!.date" :disabled="isDisabled" />
+          <el-input v-model="formData!.date" disabled />
         </el-form-item>
         <el-form-item label="sales">
-          <el-input v-model="formData!.sales" :disabled="isDisabled" />
+          <el-input v-model="formData!.sales" disabled />
         </el-form-item>
         <el-form-item label="status">
           <el-select v-model="formData!.status" :disabled="isDisabled" placeholder="status">
