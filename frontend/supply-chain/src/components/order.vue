@@ -83,8 +83,6 @@ const BSReset = async () => {
 
 const BSCommit = async () => {
   loading.value = true
-  console.log(searchStart.value)
-  console.log(searchEnd.value)
   tableData.value = await orderStore.fetchOrders(
     1,
     pageSize.value,
@@ -258,7 +256,7 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
       <div class="multiDel">
         <el-popconfirm
           :icon="InfoFilled"
-          :title="`确认删除id为` + selectList + `的信息？`"
+          :title="`确认删除id为{` + selectList + `}的信息？`"
           icon-color="#FF0000"
           width="220"
           @cancel="onCancel"
@@ -288,7 +286,7 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
     <el-table-column label="CustomerId" property="customerId" width="120" />
     <el-table-column label="Date" property="date" width="170" />
     <el-table-column label="Sales" property="sales" width="70" />
-    <el-table-column label="Status" property="status" width="160" />
+    <el-table-column label="Status" property="status" width="165" />
     <el-table-column label="Region" property="region" width="150" />
     <el-table-column label="Country" property="country" width="200" />
     <el-table-column label="City" property="city" width="200" />
