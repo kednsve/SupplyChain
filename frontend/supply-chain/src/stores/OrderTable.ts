@@ -51,7 +51,7 @@ export const useOrderStore = defineStore('OrderTable', {
       this.pages = pageData.pages
       this.total = pageData.total
       this.current = pageData.current
-      return pageData.records
+      return pageData.records as Order[]
     },
     async fetchOrder(id: number) {
       try {

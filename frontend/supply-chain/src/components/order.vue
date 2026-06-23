@@ -282,15 +282,15 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
     @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection" width="55" />
-    <el-table-column label="Id" property="id" width="100" />
-    <el-table-column label="CustomerId" property="customerId" width="120" />
-    <el-table-column label="Date" property="date" width="170" />
-    <el-table-column label="Sales" property="sales" width="70" />
-    <el-table-column label="Status" property="status" width="165" />
-    <el-table-column label="Region" property="region" width="150" />
-    <el-table-column label="Country" property="country" width="200" />
-    <el-table-column label="City" property="city" width="200" />
-    <el-table-column label="operation" width="150">
+    <el-table-column align="center" label="Id" property="id" width="100" />
+    <el-table-column align="center" label="CustomerId" property="customerId" width="120" />
+    <el-table-column align="center" label="Date" property="date" width="170" />
+    <el-table-column align="center" label="Sales" property="sales" width="70" />
+    <el-table-column align="center" label="Status" property="status" width="165" />
+    <el-table-column align="center" label="Region" property="region" width="150" />
+    <el-table-column align="center" label="Country" property="country" width="200" />
+    <el-table-column align="center" label="City" property="city" width="200" />
+    <el-table-column align="center" label="operation" width="150">
       <template #default="{ row }">
         <el-button-group>
           <el-button plain type="success" @click="openDialog(row.id, 'update')"> 修改 </el-button>

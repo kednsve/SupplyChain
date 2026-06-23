@@ -27,7 +27,7 @@ export const useCategoryStore = defineStore('CategoryTable', {
       this.pages = pageData.pages
       this.total = pageData.total
       this.current = pageData.current
-      return pageData.records
+      return pageData.records as Category[]
     },
     async fetchCategory(id: number) {
       try {

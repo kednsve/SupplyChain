@@ -20,7 +20,7 @@
     <!--        </foreach>-->
     <!--    </delete>-->
     <sql id="selectSql">
-        select o.id, o.order_id, o.product_id, p.name, o.quantity, o.unit_price, o.total
+        select o.id, o.order_id, o.product_id, p.name productName, o.quantity, o.unit_price, o.total
         from order_items o
                  left join product p on o.product_id = p.id
     </sql>

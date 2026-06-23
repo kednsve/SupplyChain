@@ -32,7 +32,7 @@ export const useCustomerStore = defineStore('CustomerTable', {
       this.pages = pageData.pages
       this.total = pageData.total
       this.current = pageData.current
-      return pageData.records
+      return pageData.records as Customer[]
     },
     async fetchCustomer(id: number) {
       try {

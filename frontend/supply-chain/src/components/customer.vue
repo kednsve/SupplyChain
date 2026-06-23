@@ -220,10 +220,10 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
     @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection" width="55" />
-    <el-table-column label="Id" property="id" />
-    <el-table-column label="Name" property="name" />
-    <el-table-column label="Segment" property="segment" />
-    <el-table-column label="operation">
+    <el-table-column align="center" label="Id" property="id" width="100" />
+    <el-table-column align="center" label="Name" property="name" />
+    <el-table-column align="center" label="Segment" property="segment" />
+    <el-table-column align="center" label="operation">
       <template #default="{ row }">
         <el-button-group>
           <el-button plain type="success" @click="openDialog(row.id, 'update')"> 修改 </el-button>
