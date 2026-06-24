@@ -8,7 +8,6 @@ import com.supply_chain.mapper.OrderItemsMapper;
 import com.supply_chain.pojo.OrderItems;
 import com.supply_chain.service.OrderItemsService;
 import com.supply_chain.service.OrderService;
-import com.supply_chain.utils.ChkNotNull;
 import com.supply_chain.vo.OrderItemsVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -87,28 +86,14 @@ public class OrderItemsServiceImp extends ServiceImpl<OrderItemsMapper, OrderIte
 
     @Override
     public List<OrderItemsVO> selByOrderId(Integer orderId) {
-        return orderItemsMapper.selByOrderId(
-                new LambdaQueryWrapper<OrderItems>()
-                        .eq(ChkNotNull.check(orderId), OrderItems::getOrderId, orderId)
-        );
+        return orderItemsMapper.selByOrderId(orderId);
     }
 
     @Override
     public Page<OrderItemsVO> getOrderItems(OrderItemsDTO orderItemsDTO) {
         Integer page = orderItemsDTO.getPage();
         Integer pageSize = orderItemsDTO.getPageSize();
-        Integer productId = orderItemsDTO.getProductId();
-        Integer quantity = orderItemsDTO.getQuantity();
-        Integer unitPriceLow = orderItemsDTO.getUnitPriceLow();
-        Integer unitPriceHigh = orderItemsDTO.getUnitPriceHigh();
         Page<OrderItemsVO> pageTemp = new Page<>(page, pageSize);
-        return orderItemsMapper.getOrderItems(
-                pageTemp,
-                new LambdaQueryWrapper<OrderItems>()
-                        .eq(ChkNotNull.check(productId), OrderItems::getProductId, productId)
-                        .ge(ChkNotNull.check(unitPriceLow), OrderItems::getUnitPrice, unitPriceLow)
-                        .le(ChkNotNull.check(unitPriceHigh), OrderItems::getUnitPrice, unitPriceHigh)
-                        .eq(ChkNotNull.check(quantity), OrderItems::getQuantity, quantity)
-        );
+        return orderItemsMapper.getOrderItems(pageTemp, orderItemsDTO);
     }
 }

@@ -132,7 +132,7 @@ const isDisabled = ref(false)
 const openDialog = (id: number, type: 'update' | 'delete') => {
   isDisabled.value = type === 'delete'
   operation.value = type === 'delete' ? '删除数据' : '修改数据'
-  const found = orderData.value.find((item) => item.id === id)
+  const found = tableData.value.find((item) => item.id === id)
   formData.value = { ...found }
   currentAnimation.value = 'bounce'
   dialogVisible.value = true

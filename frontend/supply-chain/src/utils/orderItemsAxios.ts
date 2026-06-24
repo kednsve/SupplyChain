@@ -10,10 +10,10 @@ export const useOrderItemsAxios = () => {
   const fetchOrderItemsPage = async (
     pageNum: number,
     pageSize: number,
-    productId?:number|null,
-    quantity?:number|null,
-    unitPriceLow?:number|null,
-    unitPriceHigh?:number|null,
+    productId?: number | null,
+    quantity?: number | null,
+    unitPriceLow?: number | null,
+    unitPriceHigh?: number | null,
   ) => {
     const data: any = {
       page: pageNum,
@@ -36,8 +36,6 @@ export const useOrderItemsAxios = () => {
   }
   const fetchOrderItems = async (orderId: number) => {
     const res = await axios.get(`${url}/${orderId}`)
-    console.log(typeof res.data.data)
-    console.log(res.data.data)
     return res.data as ResponseResult<OrderItems[]>
   }
   const updateOrderItems = async (orderItems: OrderItems) => {

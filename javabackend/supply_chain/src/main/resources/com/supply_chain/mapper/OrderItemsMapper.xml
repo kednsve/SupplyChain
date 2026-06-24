@@ -26,10 +26,24 @@
     </sql>
     <select id="selByOrderId" resultType="com.supply_chain.vo.OrderItemsVO">
         <include refid="selectSql"/>
-        ${ew.customSqlSegment}
+        where o.order_id = #{orderId} and o.is_deleted = 0
     </select>
     <select id="getOrderItems" resultType="com.supply_chain.vo.OrderItemsVO">
         <include refid="selectSql"/>
-        ${ew.customSqlSegment}
+        <where>
+            <if test="dto.productId != null">
+                o.product_id = #{dto.productId}
+            </if>
+            <if test="dto.unitPriceLow != null">
+                o.unit_price &gt;= #{dto.unitPriceLow}
+            </if>
+            <if test="dto.unitPriceHigh != null">
+                o.unit_price &lt;= #{dto.unitPriceHigh}
+            </if>
+            <if test="dto.quantity != null">
+                o.quantity = #{dto.quantity}
+            </if>
+            o.is_deleted = 0
+        </where>
     </select>
 </mapper>
