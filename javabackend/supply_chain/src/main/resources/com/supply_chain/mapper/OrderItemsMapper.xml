@@ -31,19 +31,31 @@
     <select id="getOrderItems" resultType="com.supply_chain.vo.OrderItemsVO">
         <include refid="selectSql"/>
         <where>
-            <if test="dto.productId != null">
-                o.product_id = #{dto.productId}
-            </if>
-            <if test="dto.unitPriceLow != null">
-                o.unit_price &gt;= #{dto.unitPriceLow}
-            </if>
-            <if test="dto.unitPriceHigh != null">
-                o.unit_price &lt;= #{dto.unitPriceHigh}
-            </if>
-            <if test="dto.quantity != null">
-                o.quantity = #{dto.quantity}
-            </if>
             o.is_deleted = 0
+            <if test="dto.productId != null">
+                and o.product_id = #{dto.productId}
+            </if>
+            <if test="dto.unitPriceMin != null">
+                and o.unit_price &gt;= #{dto.unitPriceMin}
+            </if>
+            <if test="dto.unitPriceMax != null">
+                and o.unit_price &lt;= #{dto.unitPriceMax}
+            </if>
+            <if test="dto.quantityMin != null">
+                and o.quantity &gt;= #{dto.quantityMin}
+            </if>
+            <if test="dto.quantityMax != null">
+                and o.quantity &lt;= #{dto.quantityMax}
+            </if>
+            <if test="dto.totalMin != null">
+                and o.quantity &gt;= #{dto.totalMin}
+            </if>
+            <if test="dto.totalMax != null">
+                and o.quantity &lt;= #{dto.totalMax}
+            </if>
+            <if test="dto.productName != null and dto.productName !=''">
+                and p.name like concat('%',#{dto.productName},'%')
+            </if>
         </where>
     </select>
     <delete id="delByOrderId">

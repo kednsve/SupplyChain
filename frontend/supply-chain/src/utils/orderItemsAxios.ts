@@ -11,9 +11,13 @@ export const useOrderItemsAxios = () => {
     pageNum: number,
     pageSize: number,
     productId?: number | null,
-    quantity?: number | null,
-    unitPriceLow?: number | null,
-    unitPriceHigh?: number | null,
+    productName?: string | null,
+    quantityMin?: number | null,
+    quantityMax?: number | null,
+    unitPriceMin?: number | null,
+    unitPriceMax?: number | null,
+    totalMin?: number | null,
+    totalMax?: number | null
   ) => {
     const data: any = {
       page: pageNum,
@@ -22,14 +26,26 @@ export const useOrderItemsAxios = () => {
     if (productId) {
       data.productId = productId
     }
-    if (quantity) {
-      data.quantity = quantity
+    if (productName) {
+      data.productName = productName
     }
-    if (unitPriceLow) {
-      data.unitPriceLow = unitPriceLow
+    if (quantityMin) {
+      data.quantityMin = quantityMin
     }
-    if (unitPriceHigh) {
-      data.unitPriceHigh = unitPriceHigh
+    if (quantityMax) {
+      data.quantityMax = quantityMax
+    }
+    if (unitPriceMin) {
+      data.unitPriceMin = unitPriceMin
+    }
+    if (unitPriceMax) {
+      data.unitPriceMax = unitPriceMax
+    }
+    if (totalMin){
+      data.totalMin = totalMin
+    }
+    if (totalMax){
+      data.totalMax = totalMax
     }
     const res = await axios.post(`${url}`, data)
     return res.data as ResponseResult<ResultPage<OrderItems>>

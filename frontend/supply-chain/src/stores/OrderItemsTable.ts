@@ -19,17 +19,25 @@ export const useOrderItemsStore = defineStore('OrderItemsTable', {
       pageNum: number,
       pageSize: number,
       productId?: number | null,
-      quantity?: number | null,
-      unitPriceLow?: number | null,
-      unitPriceHigh?: number | null,
+      productName?: string |null,
+      quantityMin?: number | null,
+      quantityMax?: number | null,
+      unitPriceMin?: number | null,
+      unitPriceMax?: number | null,
+      totalMin?: number | null,
+      totalMax?: number | null
     ) {
       const res = await orderItemsAxios.fetchOrderItemsPage(
         pageNum,
         pageSize,
         productId,
-        quantity,
-        unitPriceLow,
-        unitPriceHigh,
+        productName,
+        quantityMin,
+        quantityMax,
+        unitPriceMin,
+        unitPriceMax,
+        totalMin,
+        totalMax
       )
       const pageData = res.data ?? {
         records: [],

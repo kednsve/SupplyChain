@@ -58,32 +58,41 @@ const searchCancel = async () => {
   cancelShow.value = false
 }
 // 高级搜索
-let searchStart = ref<string>('')
-let searchEnd = ref<string>('')
-let searchCustomerId = ref<string>('')
-let searchSalesMin = ref<string>('')
-let searchSalesMax = ref<string>('')
-let searchStatus = ref<string>('')
-let searchRegion = ref<string>('')
-let searchCountry = ref<string>('')
-let searchCity = ref<string>('')
+let searchProductId = ref<string>('')
+let searchProductName = ref<string>('')
+let searchQuantityMin = ref<string>('')
+let searchQuantityMax = ref<string>('')
+let searchUnitPriceMin = ref<string>('')
+let searchUnitPriceMax = ref<string>('')
+let searchTotalMin = ref<string>('')
+let searchTotalMax = ref<string>('')
 
 const BSReset = async () => {
-  searchStart.value = ''
-  searchEnd.value = ''
-  searchCustomerId.value = ''
-  searchSalesMin.value = ''
-  searchSalesMax.value = ''
-  searchStatus.value = ''
-  searchRegion.value = ''
-  searchCountry.value = ''
-  searchCity.value = ''
+  searchProductId.value = ''
+  searchProductName.value = ''
+  searchQuantityMin.value = ''
+  searchQuantityMax.value = ''
+  searchUnitPriceMin.value = ''
+  searchUnitPriceMax.value = ''
+  searchTotalMin.value = ''
+  searchTotalMax.value = ''
   tableData.value = await orderItemsStore.fetchOrderItemss(1, pageSize.value)
 }
 
 const BSCommit = async () => {
   loading.value = true
-  tableData.value = await orderItemsStore.fetchOrderItemss(1, pageSize.value)
+  tableData.value = await orderItemsStore.fetchOrderItemss(
+    1,
+    pageSize.value,
+    Number(searchProductId.value),
+    searchProductName.value,
+    Number(searchQuantityMin.value),
+    Number(searchQuantityMax.value),
+    Number(searchUnitPriceMin.value),
+    Number(searchUnitPriceMax.value),
+    Number(searchTotalMin.value),
+    Number(searchTotalMax.value)
+  )
   loading.value = false
 }
 // 批量删除
@@ -177,53 +186,22 @@ const operationDialog = (type: 'success' | 'error', message: string) => {
         <el-collapse-item title="高级">
           <el-form class="betterSearch">
             <el-form-item>
-              <el-date-picker
-                v-model="searchStart"
-                placeholder="start"
-                style="width: 120px"
-                type="date"
-                value-format="YYYY-MM-DD"
-              />
+              <el-input v-model="searchProductId" placeholder="ProductId" style="width: 120px" />
             </el-form-item>
             <el-form-item>
-              <el-date-picker
-                v-model="searchEnd"
-                placeholder="end"
-                style="width: 120px"
-                type="date"
-                value-format="YYYY-MM-DD"
-              />
+              <el-input v-model="searchProductName" placeholder="ProductName" style="width: 120px" />
             </el-form-item>
             <el-form-item>
-              <el-input v-model="searchCustomerId" placeholder="customerId" style="width: 110px" />
+              <el-input v-model="searchUnitPriceMin" placeholder="UnitPriceMin" style="width: 120px" />
             </el-form-item>
             <el-form-item>
-              <el-input v-model="searchSalesMin" placeholder="salesMin" style="width: 100px" />
+              <el-input v-model="searchUnitPriceMax" placeholder="UnitPriceMax" style="width: 120px" />
             </el-form-item>
             <el-form-item>
-              <el-input v-model="searchSalesMax" placeholder="salesMax" style="width: 100px" />
+              <el-input v-model="searchTotalMin" placeholder="TotalMin" style="width: 120px" />
             </el-form-item>
             <el-form-item>
-              <el-select v-model="searchStatus" placeholder="status" style="width: 160px">
-                <el-option label="CLOSED" value="CLOSED" />
-                <el-option label="PENDING_PAYMENT" value="PENDING_PAYMENT" />
-                <el-option label="COMPLETE" value="COMPLETE" />
-                <el-option label="PROCESSING" value="PROCESSING" />
-                <el-option label="PAYMENT_REVIEW" value="PAYMENT_REVIEW" />
-                <el-option label="PENDING" value="PENDING" />
-                <el-option label="ON_HOLD" value="ON_HOLD" />
-                <el-option label="CANCELED" value="CANCELED" />
-                <el-option label="SUSPECTED_FRAUD" value="SUSPECTED_FRAUD" />
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-input v-model="searchRegion" placeholder="region" style="width: 100px" />
-            </el-form-item>
-            <el-form-item>
-              <el-input v-model="searchCountry" placeholder="country" style="width: 100px" />
-            </el-form-item>
-            <el-form-item>
-              <el-input v-model="searchCity" placeholder="city" style="width: 100px" />
+              <el-input v-model="searchTotalMax" placeholder="TotalMax" style="width: 120px" />
             </el-form-item>
             <el-button-group>
               <el-button type="info" @click="BSReset">重置</el-button>
