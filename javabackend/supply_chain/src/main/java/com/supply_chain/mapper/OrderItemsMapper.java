@@ -37,4 +37,6 @@ public interface OrderItemsMapper extends BaseMapper<OrderItems> {
     List<OrderItemsVO> selByOrderId(Integer orderId);
 
     Page<OrderItemsVO> getOrderItems(Page<OrderItemsVO> page, OrderItemsDTO dto);
+
+    void delByOrderId(List<Integer> ids);
 }

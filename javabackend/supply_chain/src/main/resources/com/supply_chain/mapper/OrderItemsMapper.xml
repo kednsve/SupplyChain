@@ -46,4 +46,12 @@
             o.is_deleted = 0
         </where>
     </select>
+    <delete id="delByOrderId">
+        delete
+        from order_items
+        where order_id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

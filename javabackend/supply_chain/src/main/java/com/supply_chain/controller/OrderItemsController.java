@@ -50,9 +50,9 @@ import java.util.List;
 public class OrderItemsController {
     private final OrderItemsService orderItemsService;
 
-    @DeleteMapping("/{orderIds}")
-    Result delByOrderId(@PathVariable List<Integer> orderIds) {
-        orderItemsService.delByOrderId(orderIds);
+    @DeleteMapping("/{ids}")
+    Result delByIds(@PathVariable List<Integer> ids) {
+        orderItemsService.delByIds(ids);
         return Result.success();
     }
 

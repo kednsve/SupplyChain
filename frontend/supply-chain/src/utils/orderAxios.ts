@@ -66,10 +66,6 @@ export const useOrderAxios = () => {
     const res = await axios.delete(`${url}/${ids}`)
     return res.data as ResponseResult
   }
-  const deleteOrderByCustomerId = async (ids: number[]) => {
-    const res = await axios.delete(`${url}/CustomerId/${ids}`)
-    return res.data as ResponseResult
-  }
   return {
     fetchOrderPage,
     fetchOrder,

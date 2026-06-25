@@ -1,13 +1,12 @@
 package com.supply_chain.service.imp;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.supply_chain.dto.OrderItemsDTO;
 import com.supply_chain.mapper.OrderItemsMapper;
+import com.supply_chain.mapper.OrderMapper;
 import com.supply_chain.pojo.OrderItems;
 import com.supply_chain.service.OrderItemsService;
-import com.supply_chain.service.OrderService;
 import com.supply_chain.vo.OrderItemsVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,11 +61,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderItemsServiceImp extends ServiceImpl<OrderItemsMapper, OrderItems> implements OrderItemsService {
     private final OrderItemsMapper orderItemsMapper;
-    private final OrderService orderService;
+    private final OrderMapper orderMapper;
 
     @Override
-    public void delByOrderId(List<Integer> orderIds) {
-        orderItemsMapper.delete(new LambdaQueryWrapper<OrderItems>().in(OrderItems::getOrderId, orderIds));
+    public void delByIds(List<Integer> ids) {
+        orderItemsMapper.deleteByIds(ids);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -81,7 +80,7 @@ public class OrderItemsServiceImp extends ServiceImpl<OrderItemsMapper, OrderIte
                 totalPrice = totalPrice.add(vo.getTotal());
             }
         }
-        orderService.updateSales(orderId, totalPrice);
+        orderMapper.updateSales(orderId, totalPrice);
     }
 
     @Override

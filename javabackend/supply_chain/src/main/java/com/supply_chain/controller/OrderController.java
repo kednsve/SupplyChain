@@ -98,9 +98,4 @@ public class OrderController {
         return Result.success();
     }
 
-    @DeleteMapping("/CustomerId")
-    Result delByCustomerId(@RequestParam List<Integer> customerId) {
-        orderService.delByCustomerId(customerId);
-        return Result.success();
-    }
 }

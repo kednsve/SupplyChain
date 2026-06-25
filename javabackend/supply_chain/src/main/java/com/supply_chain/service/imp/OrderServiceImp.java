@@ -1,18 +1,18 @@
 package com.supply_chain.service.imp;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.supply_chain.dto.OrderDTO;
+import com.supply_chain.mapper.OrderItemsMapper;
 import com.supply_chain.mapper.OrderMapper;
 import com.supply_chain.pojo.Order;
 import com.supply_chain.service.OrderService;
 import com.supply_chain.utils.ChkNotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -114,6 +114,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderServiceImp extends ServiceImpl<OrderMapper, Order> implements OrderService {
     private final OrderMapper orderMapper;
+    private final OrderItemsMapper orderItemsMapper;
 
     @Override
     public Order selById(Integer id) {
@@ -149,14 +150,11 @@ public class OrderServiceImp extends ServiceImpl<OrderMapper, Order> implements 
         );
     }
 
-    @Override
-    public void delByCustomerId(List<Integer> ids) {
-        orderMapper.delete(new LambdaQueryWrapper<Order>().in(Order::getCustomerId, ids));
-    }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void delById(List<Integer> ids) {
         orderMapper.deleteByIds(ids);
+        orderItemsMapper.delByOrderId(ids);
     }
 
     @Override
@@ -164,8 +162,4 @@ public class OrderServiceImp extends ServiceImpl<OrderMapper, Order> implements 
         orderMapper.updateById(order);
     }
 
-    @Override
-    public void updateSales(Integer id, BigDecimal sales) {
-        orderMapper.update(new LambdaUpdateWrapper<Order>().eq(Order::getId, id).set(Order::getSales, sales));
-    }
 }

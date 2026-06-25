@@ -45,8 +45,12 @@ package com.supply_chain.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.supply_chain.pojo.Order;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
+
+import java.math.BigDecimal;
 
 @Mapper
 public interface OrderMapper extends BaseMapper<Order> {
-
+    @Update("update `order` set sales = #{sales} where id=#{id}")
+    void updateSales(Integer id, BigDecimal sales);
 }

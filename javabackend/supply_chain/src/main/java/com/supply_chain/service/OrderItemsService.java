@@ -21,11 +21,12 @@ import java.util.List;
 //    List<OrderItems> getByOrderId(Integer id);
 //}
 public interface OrderItemsService extends IService<OrderItems> {
-    void delByOrderId(List<Integer> orderIds);
 
     void update(OrderItems orderItems);
 
     List<OrderItemsVO> selByOrderId(Integer orderId);
 
     Page<OrderItemsVO> getOrderItems(OrderItemsDTO orderItemsDTO);
+
+    void delByIds(List<Integer> ids);
 }
