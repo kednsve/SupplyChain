@@ -1,9 +1,9 @@
 package com.supply_chain.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.supply_chain.dto.ProductDTO;
 import com.supply_chain.pojo.Product;
 import com.supply_chain.vo.ProductVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -38,7 +38,7 @@ import org.apache.ibatis.annotations.Param;
 //}
 @Mapper
 public interface ProductMapper extends BaseMapper<Product> {
-    Page<ProductVO> getProducts(Page<ProductVO> page, @Param("ew") LambdaQueryWrapper<Product> wrapper);
+    Page<ProductVO> getProducts(Page<ProductVO> page, ProductDTO dto);
 
     ProductVO selById(@Param("ew") QueryWrapper<Product> wrapper);
 }

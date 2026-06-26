@@ -1,6 +1,5 @@
 package com.supply_chain.service.imp;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,12 +7,10 @@ import com.supply_chain.dto.ProductDTO;
 import com.supply_chain.mapper.ProductMapper;
 import com.supply_chain.pojo.Product;
 import com.supply_chain.service.ProductService;
-import com.supply_chain.utils.ChkNotNull;
 import com.supply_chain.vo.ProductVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 //
@@ -86,7 +83,7 @@ public class ProductServiceImp extends ServiceImpl<ProductMapper, Product> imple
     @Override
     public ProductVO selById(Integer id) {
         return productMapper.selById(
-                new QueryWrapper<Product>().eq("p.id", id)
+                new QueryWrapper<Product>().eq("p.id", id).eq("p.is_delete", 0)
         );
     }
 
@@ -94,20 +91,10 @@ public class ProductServiceImp extends ServiceImpl<ProductMapper, Product> imple
     public Page<ProductVO> getProducts(ProductDTO productDTO) {
         Integer page = productDTO.getPage();
         Integer pageSize = productDTO.getPageSize();
-        String name = productDTO.getName();
-        BigDecimal priceLow = productDTO.getPriceLow();
-        BigDecimal priceHigh = productDTO.getPriceHigh();
-        Integer categoryId = productDTO.getCategoryId();
-        Integer departmentId = productDTO.getDepartmentId();
         Page<ProductVO> productPage = new Page<>(page, pageSize);
         return productMapper.getProducts(
                 productPage,
-                new LambdaQueryWrapper<Product>()
-                        .like(ChkNotNull.check(name), Product::getName, name)
-                        .ge(ChkNotNull.check(priceLow), Product::getPrice, priceLow)
-                        .le(ChkNotNull.check(priceHigh), Product::getPrice, priceHigh)
-                        .eq(ChkNotNull.check(categoryId), Product::getCategoryId, categoryId)
-                        .eq(ChkNotNull.check(departmentId), Product::getDepartmentId, departmentId)
+                productDTO
         );
     }
 }

@@ -47,7 +47,30 @@
     </sql>
     <select id="getProducts" resultType="com.supply_chain.vo.ProductVO">
         <include refid="selectSql"/>
-        ${ew.customSqlSegment}
+        <where>
+            p.is_deleted=0
+            <if test="dto.name !=null and dto.name !=''">
+                and p.name like concat('%',#{dto.name},'%')
+            </if>
+            <if test="dto.priceLow != null">
+                and p.price >= #{dto.priceLow}
+            </if>
+            <if test="dto.priceHigh != null">
+                and p.price &lt;= #{dto.priceHigh}
+            </if>
+            <if test="dto.categoryId != null">
+                and c.id = #{dto.categoryId}
+            </if>
+            <if test="dto.categoryName !=null and dto.categoryName !=''">
+                and c.name like concat('%',#{dto.categoryName},'%')
+            </if>
+            <if test="dto.departmentId != null">
+                and d.id = #{dto.departmentId}
+            </if>
+            <if test="dto.departmentName !=null and dto.departmentName !=''">
+                and d.name like concat('%',#{dto.departmentName},'%')
+            </if>
+        </where>
     </select>
     <select id="selById" resultType="com.supply_chain.vo.ProductVO">
         <include refid="selectSql"/>

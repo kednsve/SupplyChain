@@ -13,5 +13,7 @@ public class ProductDTO extends PageQuery{
     BigDecimal priceLow;
     BigDecimal priceHigh;
     Integer categoryId;
+    String categoryName;
     Integer departmentId;
+    String departmentName;
 }
