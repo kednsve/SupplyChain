@@ -74,6 +74,8 @@
     </select>
     <select id="selById" resultType="com.supply_chain.vo.ProductVO">
         <include refid="selectSql"/>
-        ${ew.customSqlSegment}
+        where
+            p.id = #{id}
+            and p.is_deleted = 0
     </select>
 </mapper>

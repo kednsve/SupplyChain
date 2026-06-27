@@ -1,6 +1,5 @@
 package com.supply_chain.service.imp;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.supply_chain.dto.ProductDTO;
@@ -82,9 +81,7 @@ public class ProductServiceImp extends ServiceImpl<ProductMapper, Product> imple
 
     @Override
     public ProductVO selById(Integer id) {
-        return productMapper.selById(
-                new QueryWrapper<Product>().eq("p.id", id).eq("p.is_delete", 0)
-        );
+        return productMapper.selById(id);
     }
 
     @Override
